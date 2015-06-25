@@ -95,13 +95,15 @@ public class Evopix extends JPanel implements MouseListener
 		});
 	}
 
-	public void mouseClicked(MouseEvent arg0)
+	public void mouseClicked(MouseEvent me)
 	{
-		cells.add(new Cell(true, true, new Coordinate(0, cells.size()), Type.YELLOW));
+		int x = (me.getX() - pane.getWidth() / 2)<0? (me.getX() - pane.getWidth() / 2) / 24 - 1: (me.getX() - pane.getWidth() / 2) / 24;
+		int y = (me.getY() - pane.getHeight() / 2)<0? (me.getY() - pane.getHeight() / 2) / 24 - 1: (me.getY() - pane.getHeight() / 2) / 24;
+		cells.add(new Cell(true, true, new Coordinate(x, y), Type.YELLOW));
 		pane.repaint();
 	}
-	public void mouseEntered(MouseEvent arg0){}
-	public void mouseExited(MouseEvent arg0){}
-	public void mousePressed(MouseEvent arg0){}
-	public void mouseReleased(MouseEvent arg0){}
+	public void mouseEntered(MouseEvent me){}
+	public void mouseExited(MouseEvent me){}
+	public void mousePressed(MouseEvent me){}
+	public void mouseReleased(MouseEvent me){}
 }
