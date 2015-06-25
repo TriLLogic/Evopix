@@ -11,7 +11,7 @@ public class Evopix extends JPanel implements MouseListener
 {
 	//Initialisers
 	private JPanel pane;
-    private BufferedImage palette;
+    private BufferedImage[] palette = new BufferedImage[8];
     private ArrayList<Cell> cells = new ArrayList<Cell>();
 
 	//Constructor
@@ -20,9 +20,16 @@ public class Evopix extends JPanel implements MouseListener
 		super(new BorderLayout());
 		//Init gui
 	    try {                
-	        palette = ImageIO.read(new File("palette.png"));
-	    } catch (IOException ex) {
-	        // handle exception...
+	        palette[0] = ImageIO.read(new File("photosynthesis.jpg"));
+	        palette[1] = ImageIO.read(new File("brain.jpg"));
+	        palette[2] = ImageIO.read(new File("shell.jpg"));
+	        palette[3] = ImageIO.read(new File("flesh.jpg"));
+	        palette[4] = ImageIO.read(new File("yellow.jpg"));
+	        palette[5] = ImageIO.read(new File("purple.jpg"));
+	        palette[6] = ImageIO.read(new File("blue.jpg"));
+	        palette[7] = ImageIO.read(new File("red.jpg"));
+	    } catch (Exception e) {
+	        System.err.println();
 	    }
 		
 		pane = new MainPane();
@@ -33,6 +40,8 @@ public class Evopix extends JPanel implements MouseListener
 		
 		cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN));
 		cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS));
+		
+		pane.repaint();
 	}
 
 	//Updates info pane
@@ -41,14 +50,28 @@ public class Evopix extends JPanel implements MouseListener
 		protected void paintComponent(Graphics g) 
 		{
 			super.paintComponent(g);
-			g.drawImage(palette, pane.getWidth() - 32, pane.getHeight() - 64, 32, 64, null);
+			//Palette
+			g.drawImage(palette[0], pane.getWidth() - 48, pane.getHeight() - 96, 24, 24, null);
+			g.drawImage(palette[1], pane.getWidth() - 24, pane.getHeight() - 96, 24, 24, null);
+			g.drawImage(palette[2], pane.getWidth() - 48, pane.getHeight() - 72, 24, 24, null);
+			g.drawImage(palette[3], pane.getWidth() - 24, pane.getHeight() - 72, 24, 24, null);
+			g.drawImage(palette[4], pane.getWidth() - 48, pane.getHeight() - 48, 24, 24, null);
+			g.drawImage(palette[5], pane.getWidth() - 24, pane.getHeight() - 48, 24, 24, null);
+			g.drawImage(palette[6], pane.getWidth() - 48, pane.getHeight() - 24, 24, 24, null);
+			g.drawImage(palette[7], pane.getWidth() - 24, pane.getHeight() - 24, 24, 24, null);
+			
+			//Organism
+			for(Cell c : cells)
+			{
+				g.drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+			}
 		}
 	}
 
 	//Create gui
 	private static void createGUI() 
 	{
-		JFrame frame = new JFrame("Pokemon");
+		JFrame frame = new JFrame("Evopix");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JComponent newContentPane = new Evopix();
