@@ -13,6 +13,7 @@ public class Evopix extends JPanel implements MouseListener
 	private JPanel pane;
     private BufferedImage[] palette = new BufferedImage[8];
     private ArrayList<Cell> cells = new ArrayList<Cell>();
+    private Type highlighted = Type.FLESH;
 
 	//Constructor
 	public Evopix()
@@ -34,7 +35,7 @@ public class Evopix extends JPanel implements MouseListener
 		
 		pane = new MainPane();
 		pane.setBackground(Color.white);
-		pane.setPreferredSize(new Dimension(800, 500));
+		pane.setPreferredSize(new Dimension(720, 480));
 		pane.addMouseListener(this);
 		add(pane, BorderLayout.CENTER);
 		
@@ -97,9 +98,33 @@ public class Evopix extends JPanel implements MouseListener
 
 	public void mouseClicked(MouseEvent me)
 	{
+		
 		int x = (me.getX() - pane.getWidth() / 2)<0? (me.getX() - pane.getWidth() / 2) / 24 - 1: (me.getX() - pane.getWidth() / 2) / 24;
 		int y = (me.getY() - pane.getHeight() / 2)<0? (me.getY() - pane.getHeight() / 2) / 24 - 1: (me.getY() - pane.getHeight() / 2) / 24;
-		cells.add(new Cell(true, true, new Coordinate(x, y), Type.YELLOW));
+		if(x>12&&y>5)
+		{
+			switch(y)
+			{
+			case 6: highlighted=(x==13)?Type.PHOTOSYNTHESIS:Type.BRAIN;break;
+			case 7: highlighted=(x==13)?Type.SHELL:Type.FLESH;break;
+			case 8: highlighted=(x==13)?Type.YELLOW:Type.PURPLE;break;
+			case 9: highlighted=(x==13)?Type.BLUE:Type.RED;break;
+			}
+		}
+		else
+		{
+			Boolean valid = false;
+			Boolean invalid = false;
+			for(Cell c : cells)
+			{
+				if(x==c.loc.x&&y==c.loc.y)
+					invalid=true;
+				if((x==c.loc.x&&(y==c.loc.y-1||y==c.loc.y+1))||(y==c.loc.y&&(x==c.loc.x-1||x==c.loc.x+1)))
+					valid=true;
+			}
+			if(valid&&!invalid)
+				cells.add(new Cell(true, true, new Coordinate(x, y), highlighted));
+		}
 		pane.repaint();
 	}
 	public void mouseEntered(MouseEvent me){}
