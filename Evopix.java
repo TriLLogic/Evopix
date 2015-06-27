@@ -1,19 +1,24 @@
 //Imports
 import javax.imageio.*;
 import javax.swing.*;
+import javax.swing.Timer;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 
-public class Evopix extends JPanel implements MouseListener
+public class Evopix extends JPanel implements MouseListener, ActionListener
 {
 	//Initialisers
 	private JPanel pane;
     private BufferedImage[] palette = new BufferedImage[8];
+    private BufferedImage highlight;
     private ArrayList<Cell> cells = new ArrayList<Cell>();
     private Type highlighted = Type.FLESH;
+    private Timer t = new Timer(1000, this);
+    private int glucose = 0;
 
 	//Constructor
 	public Evopix()
@@ -29,6 +34,7 @@ public class Evopix extends JPanel implements MouseListener
 	        palette[5] = ImageIO.read(new File("purple.jpg"));
 	        palette[6] = ImageIO.read(new File("blue.jpg"));
 	        palette[7] = ImageIO.read(new File("red.jpg"));
+	        highlight = ImageIO.read(new File("highlight1.jpg"));
 	    } catch (Exception e) {
 	        System.err.println();
 	    }
@@ -43,6 +49,18 @@ public class Evopix extends JPanel implements MouseListener
 		cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS));
 		
 		pane.repaint();
+		
+		//Start update clock
+		t.start();
+	}
+	
+	public int getGlucoseInc()
+	{
+		int psCells = 0;
+		for(Cell c : cells)
+			if(c.type == Type.PHOTOSYNTHESIS)
+				psCells++;
+		return psCells;
 	}
 
 	//Updates info pane
@@ -51,6 +69,11 @@ public class Evopix extends JPanel implements MouseListener
 		protected void paintComponent(Graphics g) 
 		{
 			super.paintComponent(g);
+			//HUD
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", Font.BOLD, 24));
+			g.drawString("Glucose: "+glucose, pane.getWidth() - 144, 48);
+			
 			//Palette
 			g.drawImage(palette[0], pane.getWidth() - 48, pane.getHeight() - 96, 24, 24, null);
 			g.drawImage(palette[1], pane.getWidth() - 24, pane.getHeight() - 96, 24, 24, null);
@@ -60,6 +83,18 @@ public class Evopix extends JPanel implements MouseListener
 			g.drawImage(palette[5], pane.getWidth() - 24, pane.getHeight() - 48, 24, 24, null);
 			g.drawImage(palette[6], pane.getWidth() - 48, pane.getHeight() - 24, 24, 24, null);
 			g.drawImage(palette[7], pane.getWidth() - 24, pane.getHeight() - 24, 24, 24, null);
+			
+			switch(highlighted)
+			{
+			case PHOTOSYNTHESIS: g.drawImage(highlight, pane.getWidth() - 50, pane.getHeight() - 98, 28, 28, null); break;
+			case BRAIN: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 98, 28, 28, null); break;
+			case SHELL: g.drawImage(highlight, pane.getWidth() - 50, pane.getHeight() - 74, 28, 28, null); break;
+			case FLESH: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 74, 28, 28, null); break;
+			case YELLOW: g.drawImage(highlight, pane.getWidth() - 50, pane.getHeight() - 50, 28, 28, null); break;
+			case PURPLE: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 50, 28, 28, null); break;
+			case BLUE: g.drawImage(highlight, pane.getWidth() - 50, pane.getHeight() - 26, 28, 28, null); break;
+			case RED: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 26, 28, 28, null); break;
+			}
 			
 			//Organism
 			for(Cell c : cells)
@@ -111,7 +146,7 @@ public class Evopix extends JPanel implements MouseListener
 			case 9: highlighted=(x==13)?Type.BLUE:Type.RED;break;
 			}
 		}
-		else
+		else if(glucose >= 10)
 		{
 			Boolean valid = false;
 			Boolean invalid = false;
@@ -123,7 +158,10 @@ public class Evopix extends JPanel implements MouseListener
 					valid=true;
 			}
 			if(valid&&!invalid)
+			{
 				cells.add(new Cell(true, true, new Coordinate(x, y), highlighted));
+				glucose -= 10;
+			}
 		}
 		pane.repaint();
 	}
@@ -131,4 +169,10 @@ public class Evopix extends JPanel implements MouseListener
 	public void mouseExited(MouseEvent me){}
 	public void mousePressed(MouseEvent me){}
 	public void mouseReleased(MouseEvent me){}
+
+	public void actionPerformed(ActionEvent ae)
+	{
+		glucose += getGlucoseInc();
+		pane.repaint();
+	}
 }
