@@ -14,3 +14,7 @@ User-chosen hotkeys
 Implement powered
 
 Implement controlled
+
+Research
+
+Map
