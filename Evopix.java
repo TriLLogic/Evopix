@@ -1,3 +1,5 @@
+package main;
+
 //Imports
 import javax.imageio.*;
 import javax.swing.*;
@@ -14,7 +16,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	//Initialisers
 	private JPanel pane;
     private BufferedImage[] palette = new BufferedImage[8];
-    private BufferedImage highlight;
+    private BufferedImage highlight, glucoseImage;
     private ArrayList<Cell> cells = new ArrayList<Cell>();
     private Type highlighted = Type.FLESH;
     private Timer t = new Timer(1000, this);
@@ -24,7 +26,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	public Evopix()
 	{
 		super(new BorderLayout());
-		//Init gui
+		
 	    try {                
 	        palette[0] = ImageIO.read(new File("photosynthesis.jpg"));
 	        palette[1] = ImageIO.read(new File("brain.jpg"));
@@ -34,6 +36,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	        palette[5] = ImageIO.read(new File("purple.jpg"));
 	        palette[6] = ImageIO.read(new File("blue.jpg"));
 	        palette[7] = ImageIO.read(new File("red.jpg"));
+	        glucoseImage = ImageIO.read(new File("glucose.jpg"));
 	        highlight = ImageIO.read(new File("highlight1.jpg"));
 	    } catch (Exception e) {
 	        System.err.println();
@@ -45,8 +48,8 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		pane.addMouseListener(this);
 		add(pane, BorderLayout.CENTER);
 		
-		cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN));
-		cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS));
+		cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN, 0));
+		cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS, 0));
 		
 		pane.repaint();
 		
@@ -62,6 +65,16 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 				psCells++;
 		return psCells;
 	}
+	
+	public int getGlucoseProfit()
+	{
+		int inc = getGlucoseInc();
+		int cost = 0;
+		for(Cell c : cells)
+			cost += c.energyUsed;
+		
+		return inc - cost;
+	}
 
 	//Updates info pane
 	public class MainPane extends JPanel 
@@ -70,9 +83,17 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		{
 			super.paintComponent(g);
 			//HUD
+			g.setColor(Color.GRAY);
+			g.fillRect(pane.getWidth() - 190, 0, 170, 40);
 			g.setColor(Color.BLACK);
-			g.setFont(new Font("Arial", Font.BOLD, 24));
-			g.drawString("Glucose: "+glucose, pane.getWidth() - 144, 48);
+			g.drawRect(pane.getWidth() - 190, 0, 170, 40);
+			// GlucoseDisplay
+			//Draw an image of glucose
+			g.drawRect(pane.getWidth() - 188, 2, 14, 14);
+			g.drawImage(glucoseImage, pane.getWidth() - 118, 2, 14, 14, null);
+			//Display amount of glucose
+			g.setFont(new Font("Arial", Font.BOLD, 14));
+			g.drawString("Glucose: "+glucose+"("+getGlucoseProfit()+"/s)", pane.getWidth() - 170, 15);
 			
 			//Palette
 			g.drawImage(palette[0], pane.getWidth() - 48, pane.getHeight() - 96, 24, 24, null);
@@ -159,7 +180,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			}
 			if(valid&&!invalid)
 			{
-				cells.add(new Cell(true, true, new Coordinate(x, y), highlighted));
+				cells.add(new Cell(true, true, new Coordinate(x, y), highlighted, 0));
 				glucose -= 10;
 			}
 		}
