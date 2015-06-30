@@ -22,3 +22,5 @@ Map
 Implement costs per turn
 
 Glucose storage
+
+New boring pixels
