@@ -18,3 +18,7 @@ Implement controlled
 Research
 
 Map
+
+Implement costs per turn
+
+Glucose storage
