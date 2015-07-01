@@ -16,11 +16,14 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	//Initialisers
 	private JPanel pane;
     private BufferedImage[] palette = new BufferedImage[8];
-    private BufferedImage highlight, glucoseImage;
+    private BufferedImage highlight, glucoseImage, flagellum;
     private ArrayList<Cell> cells = new ArrayList<Cell>();
     private Type highlighted = Type.FLESH;
     private Timer t = new Timer(1000, this);
     private int glucose = 0;
+    private int[][] combos = new int[1][3];
+    private int[] comboCount = new int[1];
+    private Random rng = new Random();
 
 	//Constructor
 	public Evopix()
@@ -38,6 +41,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	        palette[7] = ImageIO.read(new File("red.jpg"));
 	        glucoseImage = ImageIO.read(new File("glucose.jpg"));
 	        highlight = ImageIO.read(new File("highlight1.jpg"));
+	        flagellum = ImageIO.read(new File("flagellum.jpg"));
 	    } catch (Exception e) {
 	        System.err.println();
 	    }
@@ -50,6 +54,11 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		
 		cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN, 0));
 		cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS, 0));
+		cells.add(new Cell(true, true, new Coordinate(1, 0), Type.FLESH, 0));
+		
+		combos[0][0] = 4;
+		combos[0][1] = rng.nextInt(4) + 4;
+		combos[0][2] = rng.nextInt(4) + 4;
 		
 		pane.repaint();
 		
@@ -57,6 +66,15 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		t.start();
 	}
 	
+	public int getMaxGlucose()
+	{
+		int fCells = 0;
+		for(Cell c : cells)
+			if(c.type == Type.FLESH)
+				fCells++;
+		return fCells * 10;
+	}
+		
 	public int getGlucoseInc()
 	{
 		int psCells = 0;
@@ -84,16 +102,15 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			super.paintComponent(g);
 			//HUD
 			g.setColor(Color.GRAY);
-			g.fillRect(pane.getWidth() - 190, 0, 170, 40);
+			g.fillRect(pane.getWidth() - 210, 0, 200, 40);
 			g.setColor(Color.BLACK);
-			g.drawRect(pane.getWidth() - 190, 0, 170, 40);
+			g.drawRect(pane.getWidth() - 210, 0, 200, 40);
 			// GlucoseDisplay
 			//Draw an image of glucose
-			g.drawRect(pane.getWidth() - 188, 2, 14, 14);
-			g.drawImage(glucoseImage, pane.getWidth() - 118, 2, 14, 14, null);
+			g.drawImage(glucoseImage, pane.getWidth() - 208, 2, 18, 14, null);
 			//Display amount of glucose
 			g.setFont(new Font("Arial", Font.BOLD, 14));
-			g.drawString("Glucose: "+glucose+"("+getGlucoseProfit()+"/s)", pane.getWidth() - 170, 15);
+			g.drawString("Glucose: "+glucose+"/"+getMaxGlucose()+" ("+getGlucoseProfit()+"/s)", pane.getWidth() - 188, 15);
 			
 			//Palette
 			g.drawImage(palette[0], pane.getWidth() - 48, pane.getHeight() - 96, 24, 24, null);
@@ -122,6 +139,30 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			{
 				g.drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
 			}
+			
+			//Check for combos
+			comboCount[0] = 0;
+			for(Cell c : cells)
+			{
+				if(c.iType == combos[0][0])
+				{
+					for(Cell d : cells)
+					{
+						if(d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1&&d.iType==combos[0][1])
+						{
+							for(Cell e : cells)
+							{
+								if(e.loc.x==d.loc.x&&e.loc.y==d.loc.y+1&&e.iType==combos[0][2])
+								{
+									comboCount[0]++;
+									g.drawImage(flagellum, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+								}
+							}
+						}
+					}
+				}
+			}
+			System.out.println(comboCount[0]);		
 		}
 	}
 
@@ -193,7 +234,9 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 
 	public void actionPerformed(ActionEvent ae)
 	{
-		glucose += getGlucoseInc();
+		glucose += getGlucoseProfit();
+		if(glucose>getMaxGlucose())
+			glucose=getMaxGlucose();
 		pane.repaint();
 	}
 }
