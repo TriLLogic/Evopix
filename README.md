@@ -1,13 +1,14 @@
 # Evopix
 Combos
-  -Spike
-  -eyes
-  -pre-eyes?
-  -digestive squirter
+
+-Spike
+-eyes
+-pre-eyes?
+-digestive squirter
   
 
 Movement
-  -flagellum animation (just flipping it isn't too bad actually)
+-flagellum animation (just flipping it isn't too bad actually)
   
 ATP
 
