@@ -21,6 +21,6 @@ Map
 
 Implement costs per turn
 
-Glucose storage
-
 New boring pixels
+
+Fix cell used twice for same combo type
