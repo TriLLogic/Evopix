@@ -1,5 +1,10 @@
 # Evopix
 Combos
+  Spike
+  eyes
+  pre-eyes?
+  digestive squirter
+  
 
 Movement
 
