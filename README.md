@@ -26,6 +26,8 @@ Implement powered
 
 Implement controlled
 
+implement autofire
+
 Research
 
 Map
