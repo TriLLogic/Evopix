@@ -28,6 +28,18 @@ Implement controlled
 
 implement autofire
 
+
+*****************************************************************************************************************
+Also:
+I know this is thinking far ahead, but it is best to sort this out now than finding it as we go and having to find a hasty alternative.
+
+We must think about how movement will work. WASD-based, click-and-move, etc.
+Whatever chosen will need some form of rotation - you need to get your attacking side facing your prey...
+Additionally, the user-chosen placement of flagellum would mean that rotation and movement would be hard to "balance".
+
+*****************************************************************************************************************
+
+
 Research
 
 Map
