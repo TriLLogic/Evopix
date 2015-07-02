@@ -9,6 +9,8 @@ public class Cell
 	Type type;
 	int energyUsed;
 	int iType;
+	Boolean usedInCombo = false;
+	Boolean beingDeleted = false;
 
 	//Constructor
 	public Cell(Boolean p, Boolean c, Coordinate l, Type t, int eu)
