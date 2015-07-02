@@ -8,15 +8,12 @@ Combos
 -pre-eyes?
 
 -digestive squirter
-  
 
 Movement
 
--flagellum animation (just flipping it isn't too bad actually)
-  
 ATP
 
-HUD
+Main menu
 
 Logo in game corner
 
@@ -26,7 +23,7 @@ Implement powered
 
 Implement controlled
 
-implement autofire
+Implement autofire
 
 
 *****************************************************************************************************************
@@ -39,6 +36,9 @@ Additionally, the user-chosen placement of flagellum would mean that rotation an
 
 *****************************************************************************************************************
 
+Saves
+
+Upgrades
 
 Research
 
@@ -46,13 +46,9 @@ Map
 
 Implement costs per turn
 
-New boring pixels
+Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis, electricity (like eels))
 
-Fix cell used twice for same combo type
-
-different shapes of brain add creature wide bonuses (e.g. faster photosynthesis, electricity (like eels))
-
-deleting/replacing pixels (at a cost?)
+Deleting pixels
 
 New ideas: (note this is a bunch of stuff I found off the internet, I don't expect much to actually make it into the game, just for extra ideas)
 
