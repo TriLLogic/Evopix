@@ -105,6 +105,10 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		return inc - cost;
 	}
 
+	// public void generateCombo(Random randGen) {
+	// 	int 
+	// }
+
 	//Updates info pane
 	public class MainPane extends JPanel 
 	{
