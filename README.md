@@ -70,7 +70,7 @@ Cytoplasm
 UPGRADES
 
 Upgrades are when you use energy to increase the productivity and efficiency of your cells and combos
-Requires brain power* to think of these.
+Requires brain power (intelligence/wisdom?)* to think of these.
 
 *Placeholder name.
 
