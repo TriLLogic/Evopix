@@ -58,10 +58,29 @@ http://study.com/academy/lesson/pseudopods-definition-function.html
 Food vacuoles (used to get energy from food)
 http://study.com/academy/lesson/food-vacuole-definition-function.html
 
-Cilia (as a bit of a pre-flagellum alternative)
+Cilia
 
 Gullet
 
 Photoreceptor
 
 Cytoplasm
+
+*****************
+UPGRADES
+
+Upgrades are when you use energy to increase the productivity and efficiency of your cells and combos
+Requires brain power* to think of these.
+
+*Placeholder name.
+
+Here are some examples:
+
+Cytoplasm >>> Flesh
+
+Cell Membrane >>> Cell Wall >>> Shell
+
+Cilia >>> Flagellum (or cilia could just be the non-combo version)
+
+Photoreceptor >>> Eye
+
