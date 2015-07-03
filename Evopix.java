@@ -1,5 +1,3 @@
-package main;
-
 //Imports
 import javax.imageio.*;
 import javax.swing.*;
