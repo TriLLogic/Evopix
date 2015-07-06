@@ -1,9 +1,10 @@
 import java.util.random;
+import java.util.ArrayList;
 
 public class Combo {
   
   private Coordinate[] locations;
-  private int[] cellTypes;
+  private List<Integer> cellTypes;
     // 1 = yellow
     // 2 = purple
     // 3 = blue
@@ -11,12 +12,22 @@ public class Combo {
   
   public Combo(Coordinate[] l) {
     locations = l;
+    cellTypes = new ArrayList<Integer>();
+    
   }
   
   public generate() {
     Random rng = new Random();
     for(int i = 0; i < l.length; i++)
-      cellTypes[i] = rng.nextInt(4);
+      cellTypes.set(i, rng.nextInt(4));
+  }
+  
+  public Coordinate[] getLocations() {
+    return locations;
+  }
+  
+  public List<Integer> getCellTypes() {
+    return cellTypes;
   }
 
 }
