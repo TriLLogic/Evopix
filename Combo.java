@@ -9,7 +9,11 @@ public class Combo {
     // 2 = purple
     // 3 = blue
     // 4 = red
+    
+    // Use Coordinates and cell types together for combo
   
+  
+  // Constructor
   public Combo(Coordinate[] l) {
     locations = l;
     cellTypes = new ArrayList<Integer>();
@@ -18,11 +22,18 @@ public class Combo {
       cellTypes.set(i, rng.nextInt(4));
   }
   
+  // Receive locations
   public Coordinate[] getLocations() {
     return locations;
   }
   
+  // Used to access cell types
   public ArrayList<Integer> getCellTypes() {
     return cellTypes;
   }
 }
+
+
+
+
+// dsafjbdsklbfgdslkjfbdslknbckldsjbhladsbckjdbsvkavcjklbsdc dsachasd cjads csdha cjsadhc sdjasd ck sdc kjsda cjkasd cj dsch asdjkc dsjka cjdsa cjdsa c jsd cjdskacjdsa cjds ac s daj cksdh cljsa cdj cajs cd cjas cjds jsd c sdjkhd
