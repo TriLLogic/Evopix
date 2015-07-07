@@ -201,22 +201,31 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		}
 	}
 	
-	public String getSaveCode() // Returns code that can be used to load again
+	public void SaveGame() // Returns code that can be used to load again
 	{
-		String code = "";
+		String code;
 		for(int i = 0; i < cells.size(); i++) {
 			code += cells.get(i).toString();
 		}
+		FileWriter fw;
+		PrintWriter pw;
+		try {
+		fw = new FileWriter("U:\\Evopix\\save.txt", true);
+		pw = new PrintWriter(fw);
+		pw.println(code);
+		pw.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		return code;
 	}
 	
-	public void loadCode(String code)
-	{
-		while (code.length > 0) {
-			//Unfinished
-		}
-	}
+	// public void loadCode(String code)
+	// {
+	//  	while (code.length > 0) {
+	//  		//Unfinished
+	//  	}
+	// }
 
 	//Create gui
 	private static void createGUI() 
