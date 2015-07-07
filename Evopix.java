@@ -203,7 +203,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	
 	public void SaveGame() // Returns code that can be used to load again
 	{
-		String code;
+		String code = "";
 		for(int i = 0; i < cells.size(); i++) {
 			code += cells.get(i).toString();
 		}
