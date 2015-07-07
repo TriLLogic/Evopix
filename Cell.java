@@ -37,13 +37,13 @@ public class Cell
 	{
 		String preString = "";
 		if(powered)
-			preString += p;
+			preString += "p";
 		else
-			preString += n;
+			preString += "n";
 		if(controlled)
-			preString += c;
+			preString += "c";
 		else
-			preString += n;
+			preString += "n";
 		return preString + ">" + iType + loc.toString();
 	}
 }
