@@ -11,4 +11,10 @@ public class Coordinate
 		x = xloc;
 		y = yloc;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "(" + x + "," + y + ")";
+	}
 }
