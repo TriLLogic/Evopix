@@ -31,4 +31,19 @@ public class Cell
 		case RED: iType = 7; break;
 		}
 	}
+	
+	@Override
+	public String toString()
+	{
+		String preString = "";
+		if(powered)
+			preString += p;
+		else
+			preString += n;
+		if(controlled)
+			preString += c;
+		else
+			preString += n;
+		return preString + ">" + iType + loc.toString();
+	}
 }
