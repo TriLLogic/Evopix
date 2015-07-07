@@ -200,6 +200,23 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			}
 		}
 	}
+	
+	public String getSaveCode() // Returns code that can be used to load again
+	{
+		String code = "";
+		for(int i = 0; i < cells.size(); i++) {
+			code += cells.get(i).toString();
+		}
+		
+		return code;
+	}
+	
+	public void loadCode(String code)
+	{
+		while (code.length > 0) {
+			//Unfinished
+		}
+	}
 
 	//Create gui
 	private static void createGUI() 
