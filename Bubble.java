@@ -14,7 +14,7 @@ public class Bubble {
 	public void act(){
 		if(xmove == 0 && ymove == 0 && alive){
 			alive = false;
-			newBub(r.nextInt(720), r.nextInt(480), r.nextInt(20)-10, r.nextInt(20)-10);
+			randBub();
 		}else{
 			x += xmove;
 			y += ymove;
@@ -28,5 +28,8 @@ public class Bubble {
 		y = ypos;
 		xmove = xvel;
 		ymove = yvel;
+	}
+	public void randBub(){
+		newBub(r.nextInt(720), r.nextInt(480), r.nextInt(20)-10, r.nextInt(20)-10);
 	}
 }
