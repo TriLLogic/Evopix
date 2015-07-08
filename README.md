@@ -15,7 +15,11 @@ Movement
 
 ATP
 
-Main menu
+Main menu - load and new game
+
+Glucose in save
+
+Coordinates in better format for negatives and 2 digits numbers
 
 Logo in game corner
 
@@ -37,8 +41,6 @@ Whatever chosen will need some form of rotation - you need to get your attacking
 Additionally, the user-chosen placement of flagellum would mean that rotation and movement would be hard to "balance".
 
 *****************************************************************************************************************
-
-Saves
 
 Upgrades
 
