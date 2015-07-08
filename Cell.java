@@ -35,6 +35,7 @@ public class Cell
 	@Override
 	public String toString()
 	{
+		//Returns powered + controlled + iType + coordinates
 		String preString = "";
 		if(powered)
 			preString += "p";
@@ -44,6 +45,6 @@ public class Cell
 			preString += "c";
 		else
 			preString += "n";
-		return preString + ">" + iType + loc.toString();
+		return preString + iType + loc.toString();
 	}
 }
