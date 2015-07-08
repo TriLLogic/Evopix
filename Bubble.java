@@ -33,3 +33,13 @@ public class Bubble {
 		newBub(r.nextInt(720), r.nextInt(480), r.nextInt(20)-10, r.nextInt(20)-10);
 	}
 }
+
+/*
+int bubNum = 10;
+Bubble[] bubs = new Bubble[bubNum];
+
+for(int i = 0; i<bubNum; i ++){
+	bubs[i] = new Bubble();
+	bubs[i].randBub();
+}
+*/
