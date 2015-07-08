@@ -15,11 +15,11 @@ Movement
 
 ATP
 
-*Main menu - load and new game*
+**Main menu - load and new game**
 
-Glucose in save
+**Glucose in save**
 
-Coordinates in better format for negatives and 2 digits numbers
+**Coordinates in better format for negatives and 2 digits numbers**
 
 Logo in game corner
 
