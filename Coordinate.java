@@ -15,6 +15,18 @@ public class Coordinate
 	@Override
 	public String toString()
 	{
-		return "(" + x + "," + y + ")";
+		String tempString = "" + x, xString = "", yString = "";
+		switch(tempString.length) {
+		case 1: xString += "0";
+		case 2: xString += "0";
+		case 3: xString += "" + x;
+		}
+		tempString = "" + y;
+		switch(tempString.length) {
+		case 1: yString += "0";
+		case 2: yString += "0";
+		case 3: yString += "" + y;
+		}
+		return "(" + xString + "," + yString + ")";
 	}
 }
