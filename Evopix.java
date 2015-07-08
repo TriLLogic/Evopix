@@ -109,12 +109,12 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 					if(line.charAt(i * 9 + 3) == '+')
 						x = 10 * Integer.parseInt(line.charAt(i * 9 + 4) + "") + Integer.parseInt(line.charAt(i * 9 + 5) + "");
 					else
-						x = -10 * Integer.parseInt(line.charAt(i * 9 + 4) + "") + Integer.parseInt(line.charAt(i * 9 + 5) + "");
+						x = -1 * (10 * Integer.parseInt(line.charAt(i * 9 + 4) + "") + Integer.parseInt(line.charAt(i * 9 + 5) + ""));
 					if(line.charAt(i * 9 + 6) == '+')
 						y = 10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + "");
 					else
-						y = -10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + "");
-
+						y = -1 * (10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + ""));
+					
 					cells.add(new Cell(powered, controlled, new Coordinate(x, y), t, 0));
 				}
 
