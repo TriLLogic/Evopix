@@ -10,6 +10,8 @@ Combos
 
 -digestive squirter
 
+Flagella need air beneath them
+
 Movement
 
 ATP
