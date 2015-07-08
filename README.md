@@ -15,7 +15,7 @@ Movement
 
 ATP
 
-Main menu - load and new game
+*Main menu - load and new game*
 
 Glucose in save
 
