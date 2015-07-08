@@ -15,18 +15,24 @@ public class Coordinate
 	@Override
 	public String toString()
 	{
-		String tempString = "" + x, xString = "", yString = "";
-		switch(tempString.length) {
-		case 1: xString += "0";
-		case 2: xString += "0";
-		case 3: xString += "" + x;
-		}
-		tempString = "" + y;
-		switch(tempString.length) {
-		case 1: yString += "0";
-		case 2: yString += "0";
-		case 3: yString += "" + y;
-		}
-		return "(" + xString + "," + yString + ")";
+		//Outputs coordinates in the form +00+00, or -73+09
+		String ppString = "";
+		if(x >= 0)
+			ppString += "+";
+		else
+			ppString += "-";
+		if(x >= 10 || x <= -10)
+			ppString += Math.abs(x);
+		else
+			ppString += "0" + Math.abs(x);
+		if(y >= 0)
+			ppString += "+";
+		else
+			ppString += "-";
+		if(y >= 10 || y <= -10)
+			ppString += Math.abs(y);
+		else
+			ppString += "0" + Math.abs(y);
+		return ppString;
 	}
 }
