@@ -1,5 +1,6 @@
 //Imports
 import javax.imageio.*;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
@@ -35,7 +36,9 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	{
 		super(new BorderLayout());
 
-		try {                
+		//Import images
+		try
+		{                
 			palette[0] = ImageIO.read(new File("photosynthesis.jpg"));
 			palette[1] = ImageIO.read(new File("brain.jpg"));
 			palette[2] = ImageIO.read(new File("shell.jpg"));
@@ -61,6 +64,27 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			System.err.println();
 		}
 
+		//Import music
+		try
+		{
+			File[] music = new File[2];
+			File redGiant = new File("stellardroneRedGiant.wav");
+			File ultraDeepField = new File("stellardroneUltraDeepField.wav");
+			music[0] = redGiant;
+			music[1] = ultraDeepField;
+			AudioInputStream stream = AudioSystem.getAudioInputStream(music[rng.nextInt(2)]);
+		    AudioFormat format = stream.getFormat();
+		    DataLine.Info info = new DataLine.Info(Clip.class, format);
+		    Clip clip = (Clip) AudioSystem.getLine(info);
+		    clip.open(stream);
+		    clip.start();
+		}
+		catch (Exception e)
+		{
+			System.err.println();
+		}
+		
+		//GUI
 		pane = new MainPane();
 		pane.setBackground(new Color(188, 205, 255));
 		pane.setPreferredSize(new Dimension(720, 480));
@@ -114,7 +138,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 						y = 10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + "");
 					else
 						y = -1 * (10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + ""));
-					
+
 					cells.add(new Cell(powered, controlled, new Coordinate(x, y), t, 0));
 				}
 
@@ -138,6 +162,8 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		}
 
 		pane.repaint();
+
+		//Start music
 
 		//Start update clocks
 		t.setActionCommand("t");
