@@ -1,6 +1,4 @@
 # Evopix
-*********perhaps have a background colour E.G. pale blue
-
 Combos
 
 -Spike
@@ -14,12 +12,6 @@ Combos
 Movement
 
 ATP
-
-**Main menu - load and new game**
-
-**Glucose in save**
-
-**Coordinates in better format for negatives and 2 digits numbers**
 
 Logo in game corner
 
