@@ -8,12 +8,9 @@ public class Bubble {
 	int y;
 	int xmove;
 	int ymove;
-
-	boolean alive = true;
-
+	
 	public void act(){
-		if(xmove == 0 && ymove == 0 && alive){
-			alive = false;
+		if(xmove == 0 && ymove == 0){
 			randBub();
 		}else{
 			x += xmove;
@@ -38,8 +35,15 @@ public class Bubble {
 int bubNum = 10;
 Bubble[] bubs = new Bubble[bubNum];
 
+bubbleImage = ImageIO.read(new File("bubbleBlue.jpg"));
+
 for(int i = 0; i<bubNum; i ++){
 	bubs[i] = new Bubble();
 	bubs[i].randBub();
+}
+
+for(int i = 0; i<bubNum; i ++){
+	bubs[i].act();
+	g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
 }
 */
