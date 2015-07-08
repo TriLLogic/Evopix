@@ -1,6 +1,7 @@
 import java.util.Random;
 
-public class Bubble {
+public class Bubble
+{
 
 	Random r = new Random();
 	
@@ -15,8 +16,8 @@ public class Bubble {
 		}else{
 			x += xmove;
 			y += ymove;
-			xmove /= 1.01;
-			ymove /= 1.01;
+			xmove /= 1.001;
+			ymove /= 1.001;
 		}
 	}
 
