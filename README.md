@@ -1,4 +1,5 @@
 # Evopix
+
 Combos
 
 -Spike
@@ -23,7 +24,6 @@ Implement controlled
 
 Implement autofire
 
-
 *****************************************************************************************************************
 Also:
 I know this is thinking far ahead, but it is best to sort this out now than finding it as we go and having to find a hasty alternative.
@@ -45,6 +45,8 @@ Implement costs per turn
 Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis, electricity (like eels))
 
 Deleting pixels
+
+Fix replacing pixels in combos transparency bug
 
 New ideas: (note this is a bunch of stuff I found off the internet, I don't expect much to actually make it into the game, just for extra ideas)
 
@@ -79,4 +81,3 @@ Cell Membrane >>> Cell Wall >>> Shell
 Cilia >>> Flagellum (or cilia could just be the non-combo version)
 
 Photoreceptor >>> Eye
-
