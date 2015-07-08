@@ -15,8 +15,8 @@ public class Bubble {
 		}else{
 			x += xmove;
 			y += ymove;
-			xmove /= 2;
-			ymove /= 2;
+			xmove /= 1.01;
+			ymove /= 1.01;
 		}
 	}
 
@@ -30,20 +30,3 @@ public class Bubble {
 		newBub(r.nextInt(720), r.nextInt(480), r.nextInt(20)-10, r.nextInt(20)-10);
 	}
 }
-
-/*
-int bubNum = 10;
-Bubble[] bubs = new Bubble[bubNum];
-
-bubbleImage = ImageIO.read(new File("bubbleBlue.jpg"));
-
-for(int i = 0; i<bubNum; i ++){
-	bubs[i] = new Bubble();
-	bubs[i].randBub();
-}
-
-for(int i = 0; i<bubNum; i ++){
-	bubs[i].act();
-	g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
-}
-*/
