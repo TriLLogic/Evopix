@@ -15,6 +15,7 @@ Flagella need air beneath them
 Movement
 
 ATP
+Tool tips
 
 Logo in game corner
 
