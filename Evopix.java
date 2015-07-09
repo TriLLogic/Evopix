@@ -30,6 +30,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	private Bubble[] bubs = new Bubble[bubNum];
 	private BufferedImage bubbleImage;
 	private BufferedImage[] menuImages = new BufferedImage[2];
+	private BufferedImage popImage;
 
 	//Constructor
 	public Evopix()
@@ -57,7 +58,8 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			flagellum[1] = ImageIO.read(new File("flagellum2.jpg"));
 			bubbleImage = ImageIO.read(new File("bubbleBlue.jpg"));
 			menuImages[0] = ImageIO.read(new File("menuNew.jpg"));
-			menuImages[1] = ImageIO.read(new File("menuLoad.jpg"));
+			menuImages[1] = ImageIO.read(new File("menuLoad.jpg"));	
+			popImage = ImageIO.read(new File("popBlue.jpg"));	
 		} 
 		catch (Exception e)
 		{
@@ -194,10 +196,19 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	public int getMaxGlucose()
 	{
 		int fCells = 0;
+		int not = 0;
 		for(Cell c : cells)
+		{
 			if(c.type == Type.FLESH)
+			{
 				fCells++;
-		return fCells * 10;
+			}
+			else
+			{
+				not++;
+			}
+		}
+		return fCells * 10 + not;
 	}
 
 	public int getGlucoseInc()
@@ -235,7 +246,12 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 				//Bubbles
 				for(int i = 0; i < bubNum; i++)
 				{
-					g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
+					if(bubs[i].pop)
+					{
+						g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
+					}else{
+						g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
+					}
 				}
 
 				//HUD
@@ -373,7 +389,8 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	{
 		JFrame frame = new JFrame("Evopix");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		frame.setResizable(false);
+		
 		JComponent newContentPane = new Evopix();
 		newContentPane.setOpaque(true);
 		frame.setContentPane(newContentPane);
@@ -484,6 +501,10 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			//Animate bubbles
 			for(int i = 0; i < bubNum; i++)
 			{
+				if(bubs[i].pop){
+					bubs[i].randBub();
+				}
+				bubs[i].pop = false;
 				bubs[i].act();
 			}
 			pane.repaint();
