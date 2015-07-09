@@ -9,10 +9,12 @@ public class Bubble
 	int y;
 	int xmove;
 	int ymove;
+	boolean pop = false;
 	
 	public void act(){
 		if(xmove == 0 && ymove == 0){
-			randBub();
+			pop = true;
+			//randBub();
 		}else{
 			x += xmove;
 			y += ymove;
