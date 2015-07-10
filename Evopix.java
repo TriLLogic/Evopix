@@ -98,9 +98,9 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	{
 		if(!load)
 		{
-			cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN, 0));
-			cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS, 0));
-			cells.add(new Cell(true, true, new Coordinate(1, 0), Type.FLESH, 0));
+			cells.add(new Cell(true, true, new Coordinate(0, 0), Type.BRAIN, 0, false));
+			cells.add(new Cell(true, true, new Coordinate(0, 1), Type.PHOTOSYNTHESIS, 0, false));
+			cells.add(new Cell(true, true, new Coordinate(1, 0), Type.FLESH, 0, false));
 
 			combos[0][0] = 4;
 			combos[0][1] = rng.nextInt(4) + 4;
@@ -141,7 +141,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 					else
 						y = -1 * (10 * Integer.parseInt(line.charAt(i * 9 + 7) + "") + Integer.parseInt(line.charAt(i * 9 + 8) + ""));
 
-					cells.add(new Cell(powered, controlled, new Coordinate(x, y), t, 0));
+					cells.add(new Cell(powered, controlled, new Coordinate(x, y), t, 0, false));
 				}
 
 				line = br.readLine();
@@ -448,7 +448,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 					}
 					if(toDelete >= 0)
 						cells.remove(toDelete);
-					cells.add(new Cell(true, true, new Coordinate(x, y), highlighted, 0));
+					cells.add(new Cell(true, true, new Coordinate(x, y), highlighted, 0, false));
 					glucose -= 10;
 				}
 				else
