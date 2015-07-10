@@ -9,9 +9,10 @@ public class Cell
 	int iType;
 	Boolean usedInCombo = false;
 	Boolean beingDeleted = false;
+	Boolean playerOwned;
 
 	//Constructor
-	public Cell(Boolean p, Boolean c, Coordinate l, Type t, int eu)
+	public Cell(Boolean p, Boolean c, Coordinate l, Type t, int eu, Boolean po)
 	{
 		//Set attributes
 		powered = p;
@@ -19,6 +20,7 @@ public class Cell
 		loc = l;
 		type = t;
 		energyUsed = eu;
+		playerOwned = po;
 		switch(type)
 		{
 		case PHOTOSYNTHESIS: iType = 0; break;
