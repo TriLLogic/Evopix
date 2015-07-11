@@ -1,6 +1,10 @@
 ***
 # Evopix
 
+Better background
+
+Fix place cells in top right corner on HUD
+
 Credits
 
 Implement organisms
