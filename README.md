@@ -17,8 +17,6 @@ Flagella need air beneath them
 
 ATP
 
-Move images to res folder
-
 Tool tips
 
 Logo in game corner
