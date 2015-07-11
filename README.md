@@ -7,6 +7,8 @@ Loading screen
 
 Multiple saves
 
+Moving bubbles
+
 Combos
 
 -Spike
