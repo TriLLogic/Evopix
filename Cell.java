@@ -1,18 +1,18 @@
 public class Cell 
 {
 	//Attributes
-	Boolean powered;
-	Boolean controlled;
+	boolean powered;
+	boolean controlled;
 	Coordinate loc;
 	Type type;
 	int energyUsed;
 	int iType;
-	Boolean usedInCombo = false;
-	Boolean beingDeleted = false;
-	Boolean nonPlayer;
+	boolean usedInCombo = false;
+	boolean beingDeleted = false;
+	boolean nonPlayer;
 
 	//Constructor
-	public Cell(Boolean p, Boolean c, Coordinate l, Type t, int eu, Boolean npc)
+	public Cell(Boolean p, boolean c, Coordinate l, Type t, int eu, Boolean npc)
 	{
 		//Set attributes
 		powered = p;
@@ -32,6 +32,15 @@ public class Cell
 		case BLUE: iType = 6; break;
 		case RED: iType = 7; break;
 		}
+	}
+	
+	public void setUsedInCombo(Boolean used)
+	{
+		usedInCombo = used;
+		if(usedInCombo)
+			energyUsed = 1;
+		else
+			energyUsed = 0;
 	}
 	
 	@Override
