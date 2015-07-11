@@ -5,73 +5,70 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
 
-public class Evopix extends JPanel implements MouseListener, ActionListener
+public class Evopix extends JPanel implements MouseListener, KeyListener, ActionListener
 {
 	//Initialisers
 	private JPanel pane;
-	private BufferedImage[] palette = new BufferedImage[12];
-	private BufferedImage highlight, glucoseImage;
-	private BufferedImage[] flagellum = new BufferedImage[3];
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
 	private Type highlighted = Type.FLESH;
-	private Timer t = new Timer(1000, this);
-	private Timer t2 = new Timer(300, this);
-	private Timer t3 = new Timer(100, this);
+	private Timer[] timers = new Timer[4];
 	private int glucose = 0;
 	private int[][] combos = new int[1][3];
 	private Random rng = new Random();
-	private Boolean menu = true;
-	private Boolean load = false;
+	private boolean menu = true;
+	private boolean load = false;
 	private int bubNum = 10;
-	private Bubble[] bubs = new Bubble[bubNum];
-	private BufferedImage bubbleImage;
+	private BufferedImage[] palette = new BufferedImage[12];
+	private BufferedImage[] flagellum = new BufferedImage[3];
 	private BufferedImage[] menuImages = new BufferedImage[2];
-	private BufferedImage popImage;
+	private BufferedImage highlight, glucoseImage, bubbleImage, popImage, background;
+	private Bubble[] bubs = new Bubble[bubNum];
+	private int flagella = 0;
+	private int leftFlagella = 0;
+	private int rightFlagella = 0;
+	private boolean forwards = false;
+	private int offset = 0;
+	private int rotateOffset = 0;
 
 	//Constructor
 	public Evopix()
 	{
 		super(new BorderLayout());
-
-		//Import images
-		try
-		{                
-			palette[0] = ImageIO.read(new File("photosynthesis.jpg"));
-			palette[1] = ImageIO.read(new File("brain.jpg"));
-			palette[2] = ImageIO.read(new File("shell.jpg"));
-			palette[3] = ImageIO.read(new File("flesh.jpg"));
-			palette[4] = ImageIO.read(new File("yellow2.jpg"));
-			palette[5] = ImageIO.read(new File("purple2.jpg"));
-			palette[6] = ImageIO.read(new File("blue2.jpg"));
-			palette[7] = ImageIO.read(new File("red2.jpg"));
-			palette[8] = ImageIO.read(new File("yellow3.jpg"));
-			palette[9] = ImageIO.read(new File("purple3.jpg"));
-			palette[10] = ImageIO.read(new File("blue3.jpg"));
-			palette[11] = ImageIO.read(new File("red3.jpg"));
-			glucoseImage = ImageIO.read(new File("glucose.jpg"));
-			highlight = ImageIO.read(new File("highlight1.jpg"));
-			flagellum[0] = ImageIO.read(new File("flagellum.jpg"));
-			flagellum[1] = ImageIO.read(new File("flagellum2.jpg"));
-			bubbleImage = ImageIO.read(new File("bubbleBlue.jpg"));
-			menuImages[0] = ImageIO.read(new File("menuNew.jpg"));
-			menuImages[1] = ImageIO.read(new File("menuLoad.jpg"));	
-			popImage = ImageIO.read(new File("popBlue.jpg"));	
-		} 
-		catch (Exception e)
-		{
-			System.err.println();
-		}
-
-		//Import music
+		
 		try
 		{
+			//Import images
+			menuImages[0] = ImageIO.read(new File("res/images/menuNew.jpg"));
+			menuImages[1] = ImageIO.read(new File("res/images/menuLoad.jpg"));
+			palette[0] = ImageIO.read(new File("res/images/photosynthesis.jpg"));
+			palette[1] = ImageIO.read(new File("res/images/brain.jpg"));
+			palette[2] = ImageIO.read(new File("res/images/shell.jpg"));
+			palette[3] = ImageIO.read(new File("res/images/flesh.jpg"));
+			palette[4] = ImageIO.read(new File("res/images/yellow2.jpg"));
+			palette[5] = ImageIO.read(new File("res/images/purple2.jpg"));
+			palette[6] = ImageIO.read(new File("res/images/blue2.jpg"));
+			palette[7] = ImageIO.read(new File("res/images/red2.jpg"));
+			palette[8] = ImageIO.read(new File("res/images/yellow3.jpg"));
+			palette[9] = ImageIO.read(new File("res/images/purple3.jpg"));
+			palette[10] = ImageIO.read(new File("res/images/blue3.jpg"));
+			palette[11] = ImageIO.read(new File("res/images/red3.jpg"));
+			glucoseImage = ImageIO.read(new File("res/images/glucose.jpg"));
+			highlight = ImageIO.read(new File("res/images/highlight1.jpg"));
+			flagellum[0] = ImageIO.read(new File("res/images/flagellum.jpg"));
+			flagellum[1] = ImageIO.read(new File("res/images/flagellum2.jpg"));
+			bubbleImage = ImageIO.read(new File("res/images/bubbleBlue.jpg"));
+			popImage = ImageIO.read(new File("res/images/popBlue.jpg"));
+			background = ImageIO.read(new File("res/images/background2.jpg"));
+			
+			//Import music
 			File[] music = new File[2];
-			File redGiant = new File("stellardroneRedGiant.wav");
-			File ultraDeepField = new File("stellardroneUltraDeepField.wav");
+			File redGiant = new File("res/music/stellardroneRedGiant.wav");
+			File ultraDeepField = new File("res/music/stellardroneUltraDeepField.wav");
 			music[0] = redGiant;
 			music[1] = ultraDeepField;
 			AudioInputStream stream = AudioSystem.getAudioInputStream(music[rng.nextInt(2)]);
@@ -80,17 +77,19 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		    Clip clip = (Clip) AudioSystem.getLine(info);
 		    clip.open(stream);
 		    clip.start();
-		}
+		} 
 		catch (Exception e)
 		{
 			System.err.println();
 		}
-		
+
 		//GUI
 		pane = new MainPane();
 		pane.setBackground(new Color(188, 205, 255));
 		pane.setPreferredSize(new Dimension(720, 480));
 		pane.addMouseListener(this);
+		pane.addKeyListener(this);
+		pane.setFocusable(true);
 		add(pane, BorderLayout.CENTER);
 	}
 
@@ -113,7 +112,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			BufferedReader br;
 			try
 			{
-				fr = new FileReader("save.txt");
+				fr = new FileReader("saves/save.txt");
 				br = new BufferedReader(fr);
 
 				String line = br.readLine();
@@ -165,15 +164,17 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 
 		pane.repaint();
 
-		//Start music
-
 		//Start update clocks
-		t.setActionCommand("t");
-		t.start();
-		t2.setActionCommand("t2");
-		t2.start();
-		t3.setActionCommand("t3");
-		t3.start();
+		timers[0] = new Timer(1000, this);
+		timers[0].setActionCommand("t");
+		timers[1] = new Timer(300, this);
+		timers[1].setActionCommand("t2");
+		timers[2] = new Timer(100, this);
+		timers[2].setActionCommand("t3");
+		timers[3] = new Timer(10, this);
+		timers[3].setActionCommand("t4");
+		for (int i = 0; i < timers.length; i++)
+			timers[i].start();
 	}
 
 	public Type iTypeToType(int i)
@@ -193,6 +194,20 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		return t;
 	}
 
+	public Coordinate getCentreOfMass()
+	{
+		int x = 0;
+		int y = 0;
+		for(Cell c : cells)
+		{
+			x += c.loc.x;
+			y += c.loc.y;
+		}
+		x /= cells.size();
+		y /= cells.size();
+		return new Coordinate(x, y);
+	}
+	
 	public int getMaxGlucose()
 	{
 		int fCells = 0;
@@ -224,14 +239,14 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 	{
 		int inc = getGlucoseInc();
 		int cost = 0;
-		for(Cell c : cells)
-			cost += c.energyUsed;
-
+		if(forwards)
+			for(Cell c : cells)
+				cost += c.energyUsed;
 		return inc - cost;
 	}
-
+		
 	// public void generateCombo(Random randGen) {
-	// 	int 
+	// 	int
 	// }
 
 	//Updates info pane
@@ -243,6 +258,23 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 
 			if(!menu)
 			{
+				//BG
+				Graphics2D g2d = (Graphics2D)g;
+				AffineTransform trans = new AffineTransform();
+				
+				for (int i = -50; i < 49; i++)
+				{
+					for (int j = -50; j < 49; j++)
+					{
+						trans.setTransform(new AffineTransform());
+						trans.translate(0, offset);
+						trans.rotate(Math.toRadians(rotateOffset));
+						trans.translate(750 + i * 3000, 750 + j * 3000);
+						g2d.drawImage(background, trans, this);
+						//g.drawImage(background, 750 + i * 3000, 750 + j * 3000 + offset, 3000, 3000, null);
+					}
+				}
+				
 				//Bubbles
 				for(int i = 0; i < bubNum; i++)
 				{
@@ -289,6 +321,10 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 				}
 
 				//Check for combos
+				flagella = 0;
+				leftFlagella = 0;
+				rightFlagella = 0;
+				
 				for(Cell c : cells)
 				{
 					if(c.iType == combos[0][0])
@@ -308,15 +344,20 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 												if(!f.usedInCombo)
 												{
 													g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
-													c.usedInCombo = true;
-													d.usedInCombo = true;
-													e.usedInCombo = true;
+													c.setUsedInCombo(true);
+													d.setUsedInCombo(true);
+													e.setUsedInCombo(true);
+													flagella++;
+													if(c.loc.x > getCentreOfMass().x)
+														rightFlagella++;
+													if(c.loc.x < getCentreOfMass().x)
+														leftFlagella++;
 												}
 												else
 												{
-													c.usedInCombo = false;
-													d.usedInCombo = false;
-													e.usedInCombo = false;
+													c.setUsedInCombo(false);
+													d.setUsedInCombo(false);
+													e.setUsedInCombo(false);
 												}
 											}
 										}
@@ -366,7 +407,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 		FileWriter fw;
 		PrintWriter pw;
 		try {
-			fw = new FileWriter("save.txt", false);
+			fw = new FileWriter("saves/save.txt", false);
 			pw = new PrintWriter(fw);
 			pw.println(code1);
 			pw.println(glucose);
@@ -376,13 +417,6 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			e.printStackTrace();
 		}
 	}
-
-	// public void loadCode(String code)
-	// {
-	//  	while (code.length > 0) {
-	//  		//Unfinished
-	//  	}
-	// }
 
 	//Create gui
 	private static void createGUI() 
@@ -469,6 +503,7 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			start();
 		}
 	}
+	
 	public void mouseEntered(MouseEvent me){}
 	public void mouseExited(MouseEvent me){}
 	public void mousePressed(MouseEvent me){}
@@ -484,6 +519,8 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			glucose += getGlucoseProfit();
 			if(glucose>getMaxGlucose())
 				glucose=getMaxGlucose();
+			if(glucose<0)
+				glucose=0;
 			pane.repaint();
 			break;
 		}
@@ -510,6 +547,32 @@ public class Evopix extends JPanel implements MouseListener, ActionListener
 			pane.repaint();
 			break;
 		}
+		case "t4":
+		{
+			//Animate movement
+			if(forwards)
+			{
+				offset+=flagella;
+				rotateOffset += (rightFlagella - leftFlagella)/2;
+			}
+			pane.repaint();
+			break;
+		}
 		}
 	}
+
+	public void keyPressed(KeyEvent ke)
+	{
+		if(flagella>0&&glucose>0)
+			forwards = true;
+		else
+			forwards = false;
+	}
+	
+	public void keyReleased(KeyEvent ke)
+	{
+		forwards = false;
+	}
+	
+	public void keyTyped(KeyEvent ke){}
 }
