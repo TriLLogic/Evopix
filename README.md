@@ -1,8 +1,6 @@
 ***
 # Evopix
 
-Background
-
 Implement organisms
 
 Combos
@@ -16,8 +14,6 @@ Combos
 -digestive squirter
 
 Flagella need air beneath them
-
-Movement
 
 ATP
 
