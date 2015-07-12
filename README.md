@@ -15,6 +15,8 @@ Multiple saves
 
 Moving bubbles
 
+Redo turning
+
 Combos
 
 -Spike
