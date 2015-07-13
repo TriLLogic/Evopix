@@ -15,6 +15,8 @@ Multiple saves
 
 Moving bubbles
 
+Flagella only flip when moving
+
 Redo turning
 
 Combos
