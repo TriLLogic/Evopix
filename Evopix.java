@@ -306,10 +306,12 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					}
 				}
 				//background
-				switch(bgs[i].level){
-					case 1: g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
-					case 2: g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
-					case 3: g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
+				for(int i = 0; i<150: i++){
+					switch(bgs[i].level){
+						case 1: g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
+						case 2: g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
+						case 3: g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					}
 				}
 				//Bubbles
 				if(!forwards)
