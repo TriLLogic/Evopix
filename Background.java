@@ -2,7 +2,6 @@ import java.util.Random;
 
 public class Background
 {
-
 	Random r = new Random();
 
 	int x;
@@ -13,8 +12,8 @@ public class Background
 	int xsiz;
 	int num;
 	int ysiz;
-	int rat;
-
+	double rat;
+	
 	int[] wid1 = new int[]{370, 894, 860, 838, 804, 163, 472};
 	int[] wid2 = new int[]{425, 150, 234, 223};
 	int[] wid3 = new int[]{189, 140, 171, 89};
@@ -23,51 +22,55 @@ public class Background
 	int[] hig3 = new int[]{196, 232, 86, 210};
 
 
-	public void act(){
+	public void act(int offset)
+	{
 		x += xspd*level;
 		y += yspd*level;
 
-		if(x > 10000+xsiz)
-			x = -xsiz;
+		if(x > 5000+xsiz- offset)
+			x = -5000-xsiz- offset;
 
-		if(x < -xsiz)
-			x = 10000+xsiz;
+		if(x < -5000-xsiz)
+			x = 5000+xsiz- offset;
 
-		if(y > 10000+ysiz)
-			y = -ysiz;
+		if(y > 5000+ysiz- offset)
+			y = -5000-ysiz- offset;
 
-		if(y < -ysiz)
-			y = 10000+ysiz;
-
+		if(y < -5000-ysiz)
+			y = 5000+ysiz- offset;
 	}
 
 	public void newBack(int lev){
-		x = r.nextInt(10000)+1;
-		y = r.nextInt(10000)+1;
+		x = r.nextInt(10000)-4999;
+		y = r.nextInt(10000)-4999;
 		xspd = r.nextInt(11)-5;
 		yspd = r.nextInt(11)-5;
 		level = lev;
 		xsiz = (r.nextInt(950)+51)/level;
 
-		switch(level){
-		case 1: 
+		switch(level)
+		{
+		case 1:
+		{
 			num = r.nextInt(7);
-			rat = wid1[num]/hig1[num];
-			ysiz = rat*xsiz;
+			rat = (double)hig1[num]/wid1[num];
+			ysiz = (int) (rat*xsiz);
 			break;
-
+		}
 		case 2: 
+		{
 			num = r.nextInt(4);
-
-			rat = wid2[num]/hig2[num];
-			ysiz = rat*xsiz;
+			rat = (double)hig2[num]/wid2[num];
+			ysiz = (int) (rat*xsiz);
 			break;
+		}
 		case 3: 
+		{
 			num = r.nextInt(4);
-
-			rat = wid3[num]/hig3[num];
-			ysiz = rat*xsiz;
+			rat = (double)hig3[num]/wid3[num];
+			ysiz = (int) (rat*xsiz);
 			break;
+		}
 		}
 
 	}
