@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
+//import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
@@ -26,7 +26,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage[] palette = new BufferedImage[12];
 	private BufferedImage[] flagellum = new BufferedImage[3];
 	private BufferedImage[] menuImages = new BufferedImage[2];
-	private BufferedImage highlight, glucoseImage, bubbleImage, popImage, /*background*/;
+	private BufferedImage highlight, glucoseImage, bubbleImage, popImage/*, background*/;
 	private Bubble[] bubs = new Bubble[bubNum];
 	private int flagella = 0;
 	private int leftFlagella = 0;
@@ -34,7 +34,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private boolean forwards = false;
 	private int offset = 0;
 	private int rotateOffset = 0;
-	private Background[] bgs = new Background[]{};
+	private Background[] bgs = new Background[375];
 	private BufferedImage[] bg1 = new BufferedImage[7];
 	private BufferedImage[] bg2 = new BufferedImage[4];
 	private BufferedImage[] bg3 = new BufferedImage[4];
@@ -43,7 +43,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	public Evopix()
 	{
 		super(new BorderLayout());
-		
+
 		try
 		{
 			//Import images
@@ -68,22 +68,22 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bubbleImage = ImageIO.read(new File("res/images/bubbleBlue.jpg"));
 			popImage = ImageIO.read(new File("res/images/popBlue.jpg"));
 			//background = ImageIO.read(new File("res/images/background2.jpg"));
-			bg1[0] = ImageIO.read(new File("res/images/bg11.jpg"));
-			bg1[1] = ImageIO.read(new File("res/images/bg12.jpg"));
-			bg1[2] = ImageIO.read(new File("res/images/bg13.jpg"));
-			bg1[3] = ImageIO.read(new File("res/images/bg14.jpg"));
-			bg1[4] = ImageIO.read(new File("res/images/bg15.jpg"));
-			bg1[5] = ImageIO.read(new File("res/images/bg16.jpg"));
-			bg1[6] = ImageIO.read(new File("res/images/bg17.jpg"));
-			bg2[0] = ImageIO.read(new File("res/images/bg21.jpg"));
-			bg2[1] = ImageIO.read(new File("res/images/bg22.jpg"));
-			bg2[2] = ImageIO.read(new File("res/images/bg23.jpg"));
-			bg2[3] = ImageIO.read(new File("res/images/bg24.jpg"));
-			bg3[0] = ImageIO.read(new File("res/images/bg31.jpg"));
-			bg3[1] = ImageIO.read(new File("res/images/bg32.jpg"));
-			bg3[2] = ImageIO.read(new File("res/images/bg33.jpg"));
-			bg3[3] = ImageIO.read(new File("res/images/bg34.jpg"));
-			
+			bg1[0] = ImageIO.read(new File("res/images/bg11.png"));
+			bg1[1] = ImageIO.read(new File("res/images/bg12.png"));
+			bg1[2] = ImageIO.read(new File("res/images/bg13.png"));
+			bg1[3] = ImageIO.read(new File("res/images/bg14.png"));
+			bg1[4] = ImageIO.read(new File("res/images/bg15.png"));
+			bg1[5] = ImageIO.read(new File("res/images/bg16.png"));
+			bg1[6] = ImageIO.read(new File("res/images/bg17.png"));
+			bg2[0] = ImageIO.read(new File("res/images/bg21.png"));
+			bg2[1] = ImageIO.read(new File("res/images/bg22.png"));
+			bg2[2] = ImageIO.read(new File("res/images/bg23.png"));
+			bg2[3] = ImageIO.read(new File("res/images/bg24.png"));
+			bg3[0] = ImageIO.read(new File("res/images/bg31.png"));
+			bg3[1] = ImageIO.read(new File("res/images/bg32.png"));
+			bg3[2] = ImageIO.read(new File("res/images/bg33.png"));
+			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
+
 			//Import music
 			File[] music = new File[2];
 			File redGiant = new File("res/music/stellardroneRedGiant.wav");
@@ -91,11 +91,11 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			music[0] = redGiant;
 			music[1] = ultraDeepField;
 			AudioInputStream stream = AudioSystem.getAudioInputStream(music[rng.nextInt(2)]);
-		    AudioFormat format = stream.getFormat();
-		    DataLine.Info info = new DataLine.Info(Clip.class, format);
-		    Clip clip = (Clip) AudioSystem.getLine(info);
-		    clip.open(stream);
-		    clip.start();
+			AudioFormat format = stream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			Clip clip = (Clip) AudioSystem.getLine(info);
+			clip.open(stream);
+			clip.start();
 		} 
 		catch (Exception e)
 		{
@@ -180,17 +180,17 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bubs[i] = new Bubble();
 			bubs[i].randBub();
 		}
-		for(int i = 0; i<15; i++){
-			bgs[i] = new Backgorund();
+		for(int i = 0; i<38; i++){
+			bgs[i] = new Background();
 			bgs[i].newBack(1);
 		}
-		for(int i = 15; i<60; i++){
-			bgs[i] = new Backgorund();
+		for(int i = 38; i<150; i++){
+			bgs[i] = new Background();
 			bgs[i].newBack(2);
 		}
-		for(int i = 60; i<150; i++){
-			bgs[i] = new Backgorund();
-			bgs[i].newBack(2);
+		for(int i = 150; i<375; i++){
+			bgs[i] = new Background();
+			bgs[i].newBack(3);
 		}
 
 		pane.repaint();
@@ -238,7 +238,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		y /= cells.size();
 		return new Coordinate(x, y);
 	}
-	
+
 	public int getMaxGlucose()
 	{
 		int fCells = 0;
@@ -275,7 +275,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				cost += c.energyUsed;
 		return inc - cost;
 	}
-		
+
 	// public void generateCombo(Random randGen) {
 	// 	int
 	// }
@@ -290,9 +290,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			if(!menu)
 			{
 				//BG
-				Graphics2D g2d = (Graphics2D)g;
+				/*Graphics2D g2d = (Graphics2D)g;
 				AffineTransform trans = new AffineTransform();
-				
+
 				for (int i = -50; i < 49; i++)
 				{
 					for (int j = -50; j < 49; j++)
@@ -301,18 +301,22 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						trans.translate(0, offset);
 						trans.rotate(Math.toRadians(rotateOffset));
 						trans.translate(750 + i * 3000, 750 + j * 3000);
-						//g2d.drawImage(background, trans, this);
-						//g.drawImage(background, 750 + i * 3000, 750 + j * 3000 + offset, 3000, 3000, null);
+						g2d.drawImage(background, trans, this);
+						g.drawImage(background, 750 + i * 3000, 750 + j * 3000 + offset, 3000, 3000, null);
+					}
+				}*/
+				
+				//Background
+				for (int i = 0; i < bgs.length; i++)
+				{
+					switch(bgs[i].level)
+					{
+					case 1: g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					case 2: g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					case 3: g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
 					}
 				}
-				//background
-				for(int i = 0; i<150: i++){
-					switch(bgs[i].level){
-						case 1: g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
-						case 2: g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
-						case 3: g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y, bgs[i].xsiz, bgs[i].ysiz, null); break;
-					}
-				}
+				
 				//Bubbles
 				if(!forwards)
 					for(int i = 0; i < bubNum; i++)
@@ -359,7 +363,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				flagella = 0;
 				leftFlagella = 0;
 				rightFlagella = 0;
-				
+
 				for(Cell c : cells)
 				{
 					if(c.iType == combos[0][0])
@@ -459,7 +463,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		JFrame frame = new JFrame("Evopix");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		
+
 		JComponent newContentPane = new Evopix();
 		newContentPane.setOpaque(true);
 		frame.setContentPane(newContentPane);
@@ -538,7 +542,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			start();
 		}
 	}
-	
+
 	public void mouseEntered(MouseEvent me){}
 	public void mouseExited(MouseEvent me){}
 	public void mousePressed(MouseEvent me){}
@@ -579,8 +583,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				bubs[i].pop = false;
 				bubs[i].act();
 			}
-			for(int i = 0; i<160; i++){
-				bubs[i].act();
+			for(int i = 0; i<375; i++){
+				bgs[i].act(offset);
 			}
 			pane.repaint();
 			break;
@@ -606,11 +610,11 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		else
 			forwards = false;
 	}
-	
+
 	public void keyReleased(KeyEvent ke)
 	{
 		forwards = false;
 	}
-	
+
 	public void keyTyped(KeyEvent ke){}
 }
