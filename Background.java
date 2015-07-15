@@ -13,6 +13,8 @@ public class Background
 	int num;
 	int ysiz;
 	double rat;
+	int rot;
+	int rotspd;
 	
 	int[] wid1 = new int[]{370, 894, 860, 838, 804, 163, 472};
 	int[] wid2 = new int[]{425, 150, 234, 223};
@@ -26,6 +28,7 @@ public class Background
 	{
 		x += xspd*level;
 		y += yspd*level;
+		rot += rotspd;
 
 		if(x > 5000+xsiz- offset)
 			x = -5000-xsiz- offset;
@@ -47,6 +50,8 @@ public class Background
 		yspd = r.nextInt(11)-5;
 		level = lev;
 		xsiz = (r.nextInt(950)+51)/level;
+		rotspd = r.nextInt(6)-3;
+		rot = r.nextInt(360);
 
 		switch(level)
 		{
