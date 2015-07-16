@@ -30,6 +30,6 @@ public class Bubble
 		ymove = yvel;
 	}
 	public void randBub(){
-		newBub(r.nextInt(720), r.nextInt(480), r.nextInt(20)-10, r.nextInt(20)-10);
+		newBub(r.nextInt(1000)-140, r.nextInt(620)-140, r.nextInt(20)-10, r.nextInt(20)-10);
 	}
 }
