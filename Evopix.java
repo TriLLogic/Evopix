@@ -7,7 +7,6 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-//import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
