@@ -30,17 +30,14 @@ public class Background
 		y += yspd*level;
 		rot += rotspd;
 
-		if(x > 5000+xsiz- offset)
-			x = -5000-xsiz- offset;
-
-		if(x < -5000-xsiz)
-			x = 5000+xsiz- offset;
-
-		if(y > 5000+ysiz- offset)
-			y = -5000-ysiz- offset;
-
-		if(y < -5000-ysiz)
-			y = 5000+ysiz- offset;
+		if(x > 5000)
+			x = -5000;
+		if(x < -5000)
+			x = 5000;
+		if(y > 5000)
+			y = -5000;
+		if(y < -5000)
+			y = 5000;
 	}
 
 	public void newBack(int lev){
