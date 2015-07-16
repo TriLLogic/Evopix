@@ -410,7 +410,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 										{
 											if(f.loc.x==c.loc.x&&f.loc.y==c.loc.y-1)
 											{
-												if(!f.usedInCombo)
+												if(!f.usedInCombo&&checkControlled(c))
 												{
 													g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 													c.setUsedInCombo(true);
@@ -457,6 +457,22 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				g.drawImage(menuImages[0], 288, 167, null);
 				g.drawImage(menuImages[1], 288, 239, null);
 			}
+		}
+
+		private boolean checkControlled(Cell c)
+		{
+			for(Cell d : cells)
+			{
+				if(isAdjacent(c, d))
+				{
+					if(d.type == Type.BRAIN)
+						return true;
+					if(d.type == Type.FLESH)
+						if(checkConnected(d))
+							return true;
+				}
+			}
+			return false;
 		}
 	}
 
@@ -613,15 +629,13 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate bubbles
 			for(int i = 0; i < bubNum; i++)
 			{
-				if(bubs[i].pop){
+				if(bubs[i].pop)
 					bubs[i].randBub();
-				}
 				bubs[i].pop = false;
 				bubs[i].act();
 			}
-			for(int i = 0; i<375; i++){
+			for(int i = 0; i<375; i++)
 				bgs[i].act(offset);
-			}
 			pane.repaint();
 			break;
 		}
@@ -630,7 +644,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
-				offset+=flagella;
+				offset+=48*flagella/cells.size();
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
 			if(offset > 5500)
@@ -643,7 +657,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 	public void keyPressed(KeyEvent ke)
 	{
-		if(flagella>0&&glucose>0)
+		if(flagella > 0 && glucose > 0) //&& flagella * 7 >= cells.size())
 			forwards = true;
 		else
 			forwards = false;
