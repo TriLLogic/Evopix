@@ -3,8 +3,10 @@ import javax.imageio.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.Timer;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 //import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
@@ -275,6 +277,30 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				cost += c.energyUsed;
 		return inc - cost;
 	}
+	
+	public boolean isAdjacent(Cell c, Cell d)
+	{
+		if((d.loc.x==c.loc.x+1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x-1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y-1))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean checkConnected(Cell c)
+	{
+		for(Cell d : cells)
+		{
+			if(isAdjacent(c, d))
+			{
+				if(d.type == Type.BRAIN)
+					return true;
+				if(d.type == Type.FLESH)
+					if(checkConnected(d))
+						return true;
+			}
+		}
+		return false;
+	}
 
 	// public void generateCombo(Random randGen) {
 	// 	int
@@ -290,8 +316,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			if(!menu)
 			{
 				//BG
-				/*Graphics2D g2d = (Graphics2D)g;
-				AffineTransform trans = new AffineTransform();
+				Graphics2D g2d = (Graphics2D)g;
+				/*AffineTransform trans = new AffineTransform();
 
 				for (int i = -50; i < 49; i++)
 				{
@@ -305,15 +331,19 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						g.drawImage(background, 750 + i * 3000, 750 + j * 3000 + offset, 3000, 3000, null);
 					}
 				}*/
-				
+				AffineTransform trans = new AffineTransform();
 				//Background
 				for (int i = 0; i < bgs.length; i++)
 				{
+					
+					trans.setTransform(new AffineTransform());
+					trans.setToTranslation(bgs[i].x, bgs[i].y + offset);
+					trans.rotate(Math.toRadians(bgs[i].rot));
 					switch(bgs[i].level)
 					{
-					case 1: g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
-					case 2: g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
-					case 3: g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					case 1: g2d.drawImage(bg1[bgs[i].num], trans, this); g.drawImage(bg1[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					case 2: g2d.drawImage(bg2[bgs[i].num], trans, this); g.drawImage(bg2[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
+					case 3: g2d.drawImage(bg3[bgs[i].num], trans, this); g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
 					}
 				}
 				
@@ -501,7 +531,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				case 9: highlighted=(x==13)?Type.BLUE:Type.RED;break;
 				}
 			}
-			else if(glucose >= 10)
+			else if(glucose >= 10 && !(x>=6&&y<=-9))
 			{
 				Boolean valid = false;
 				for(Cell c : cells)
@@ -521,7 +551,10 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					}
 					if(toDelete >= 0)
 						cells.remove(toDelete);
-					cells.add(new Cell(true, true, new Coordinate(x, y), highlighted, 0, false));
+					Cell c = new Cell(true, true, new Coordinate(x, y), highlighted, 0, false);
+					if(!checkConnected(c))
+						c.controlled = false;
+					cells.add(c);
 					glucose -= 10;
 				}
 				else
@@ -566,10 +599,13 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		case "t2":
 		{
 			//Flip flagella
-			flagellum[2] = flagellum[0];
-			flagellum[0] = flagellum[1];
-			flagellum[1] = flagellum[2];
-			pane.repaint();
+			if(forwards)
+			{
+				flagellum[2] = flagellum[0];
+				flagellum[0] = flagellum[1];
+				flagellum[1] = flagellum[2];
+				pane.repaint();
+			}
 			break;
 		}
 		case "t3":
@@ -597,6 +633,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				offset+=flagella;
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
+			if(offset > 5500)
+				offset = -5500;
 			pane.repaint();
 			break;
 		}
