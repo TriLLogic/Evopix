@@ -21,8 +21,6 @@ Loading screen
 
 Multiple saves
 
-Moving bubbles
-
 Redo turning
 
 Combos
