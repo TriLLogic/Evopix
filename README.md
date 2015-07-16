@@ -5,7 +5,9 @@ Speed variation from mass
 
 aero dynamics
 
-upgrades (see bottom
+upgrades (see bottom)
+
+Implement hover-over combo fading...
 
 Credits
 
