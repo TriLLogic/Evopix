@@ -277,30 +277,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				cost += c.energyUsed;
 		return inc - cost;
 	}
-	
-	public boolean isAdjacent(Cell c, Cell d)
-	{
-		if((d.loc.x==c.loc.x+1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x-1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y-1))
-			return true;
-		else
-			return false;
-	}
-	
-	public boolean checkConnected(Cell c)
-	{
-		for(Cell d : cells)
-		{
-			if(isAdjacent(c, d))
-			{
-				if(d.type == Type.BRAIN)
-					return true;
-				if(d.type == Type.FLESH)
-					if(checkConnected(d))
-						return true;
-			}
-		}
-		return false;
-	}
 
 	// public void generateCombo(Random randGen) {
 	// 	int
@@ -348,7 +324,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				
 				//Bubbles
-				if(!forwards)
+				//if(!forwards)
 					for(int i = 0; i < bubNum; i++)
 						if(bubs[i].pop)
 							g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
@@ -410,7 +386,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 										{
 											if(f.loc.x==c.loc.x&&f.loc.y==c.loc.y-1)
 											{
-												if(!f.usedInCombo&&checkControlled(c))
+												if(!f.usedInCombo)
 												{
 													g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 													c.setUsedInCombo(true);
@@ -457,22 +433,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				g.drawImage(menuImages[0], 288, 167, null);
 				g.drawImage(menuImages[1], 288, 239, null);
 			}
-		}
-
-		private boolean checkControlled(Cell c)
-		{
-			for(Cell d : cells)
-			{
-				if(isAdjacent(c, d))
-				{
-					if(d.type == Type.BRAIN)
-						return true;
-					if(d.type == Type.FLESH)
-						if(checkConnected(d))
-							return true;
-				}
-			}
-			return false;
 		}
 	}
 
@@ -547,7 +507,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				case 9: highlighted=(x==13)?Type.BLUE:Type.RED;break;
 				}
 			}
-			else if(glucose >= 10 && !(x>=6&&y<=-9))
+			else if(glucose >= 10)
 			{
 				Boolean valid = false;
 				for(Cell c : cells)
@@ -567,10 +527,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					}
 					if(toDelete >= 0)
 						cells.remove(toDelete);
-					Cell c = new Cell(true, true, new Coordinate(x, y), highlighted, 0, false);
-					if(!checkConnected(c))
-						c.controlled = false;
-					cells.add(c);
+					cells.add(new Cell(true, true, new Coordinate(x, y), highlighted, 0, false));
 					glucose -= 10;
 				}
 				else
@@ -615,13 +572,10 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		case "t2":
 		{
 			//Flip flagella
-			if(forwards)
-			{
-				flagellum[2] = flagellum[0];
-				flagellum[0] = flagellum[1];
-				flagellum[1] = flagellum[2];
-				pane.repaint();
-			}
+			flagellum[2] = flagellum[0];
+			flagellum[0] = flagellum[1];
+			flagellum[1] = flagellum[2];
+			pane.repaint();
 			break;
 		}
 		case "t3":
@@ -629,13 +583,21 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate bubbles
 			for(int i = 0; i < bubNum; i++)
 			{
+				if(forwards)
+					bubs[i].y += flagella*10;
+				
+				
 				if(bubs[i].pop)
 					bubs[i].randBub();
+				
 				bubs[i].pop = false;
 				bubs[i].act();
+				
+				
 			}
-			for(int i = 0; i<375; i++)
+			for(int i = 0; i<375; i++){
 				bgs[i].act(offset);
+			}
 			pane.repaint();
 			break;
 		}
@@ -644,7 +606,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
-				offset+=48*flagella/cells.size();
+				offset+=flagella;
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
 			if(offset > 5500)
@@ -657,7 +619,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 	public void keyPressed(KeyEvent ke)
 	{
-		if(flagella > 0 && glucose > 0) //&& flagella * 7 >= cells.size())
+		if(flagella>0&&glucose>0)
 			forwards = true;
 		else
 			forwards = false;
