@@ -1,8 +1,6 @@
 ***
 # Evopix
 
-Fix place cells in top right corner on HUD
-
 Credits
 
 Implement organisms
@@ -12,8 +10,6 @@ Loading screen
 Multiple saves
 
 Moving bubbles
-
-Flagella only flip when moving
 
 Redo turning
 
