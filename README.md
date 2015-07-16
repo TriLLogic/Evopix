@@ -1,7 +1,9 @@
 ***
 # Evopix
 
-Speed variation from mass
+Cookie warning
+
+Brains penalty when hit
 
 aero dynamics
 
