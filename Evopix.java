@@ -646,7 +646,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			if(forwards)
 			{
 				for(int i = 0; i<bubNum; i++)
-					bubs[i].y += flagella;
+					bubs[i].y += 48*flagella/cells.size();
 				offset+=48*flagella/cells.size();
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
