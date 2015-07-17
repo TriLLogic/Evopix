@@ -86,6 +86,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
 
 			//Import music
+			/*
 			File[] music = new File[2];
 			File redGiant = new File("res/music/stellardroneRedGiant.wav");
 			File ultraDeepField = new File("res/music/stellardroneUltraDeepField.wav");
@@ -97,6 +98,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(stream);
 			clip.start();
+			*/
 		} 
 		catch (Exception e)
 		{
@@ -199,7 +201,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		//Start update clocks
 		timers[0] = new Timer(1000, this);
 		timers[0].setActionCommand("t");
-		timers[1] = new Timer(300, this);
+		timers[1] = new Timer(100, this);
 		timers[1].setActionCommand("t2");
 		timers[2] = new Timer(100, this);
 		timers[2].setActionCommand("t3");
@@ -347,7 +349,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				
 				//Bubbles
-				if(!forwards)
+				//if(!forwards)
 					for(int i = 0; i < bubNum; i++)
 						if(bubs[i].pop)
 							g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
@@ -643,6 +645,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
+				for(int i = 0; i<bubNum; i++)
+					bubs[i].y += flagella;
 				offset+=48*flagella/cells.size();
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
