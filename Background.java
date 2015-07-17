@@ -14,7 +14,7 @@ public class Background
 	int ysiz;
 	double rat;
 	int rot;
-	int rotspd;
+	int rotspd = 0;
 	
 	int[] wid1 = new int[]{370, 894, 860, 838, 804, 163, 472};
 	int[] wid2 = new int[]{425, 150, 234, 223};
@@ -30,24 +30,25 @@ public class Background
 		y += yspd*level;
 		rot += rotspd;
 
-		if(x > 5000)
-			x = -5000;
-		if(x < -5000)
-			x = 5000;
-		if(y > 5000)
-			y = -5000;
-		if(y < -5000)
-			y = 5000;
+		if(x > 6000)
+			x = -6000;
+		if(x < -6000)
+			x = 6000;
+		if(y > 6000)
+			y = -6000;
+		if(y < -6000)
+			y = 6000;
 	}
 
 	public void newBack(int lev){
-		x = r.nextInt(10000)-4999;
-		y = r.nextInt(10000)-4999;
+		x = r.nextInt(10001)-5000;
+		y = r.nextInt(10001)-5000;
 		xspd = r.nextInt(11)-5;
 		yspd = r.nextInt(11)-5;
 		level = lev;
 		xsiz = (r.nextInt(950)+51)/level;
-		rotspd = r.nextInt(6)-3;
+		while(rotspd == 0)
+			rotspd = r.nextInt(6)-3;
 		rot = r.nextInt(360);
 
 		switch(level)
