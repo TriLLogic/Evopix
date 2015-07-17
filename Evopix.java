@@ -86,7 +86,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
 
 			//Import music
-			/*
+			
 			File[] music = new File[2];
 			File redGiant = new File("res/music/stellardroneRedGiant.wav");
 			File ultraDeepField = new File("res/music/stellardroneUltraDeepField.wav");
@@ -98,7 +98,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(stream);
 			clip.start();
-			*/
+			
 		} 
 		catch (Exception e)
 		{
