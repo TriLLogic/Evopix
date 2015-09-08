@@ -7,6 +7,7 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
+//import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
@@ -39,6 +40,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage[] bg1 = new BufferedImage[7];
 	private BufferedImage[] bg2 = new BufferedImage[4];
 	private BufferedImage[] bg3 = new BufferedImage[4];
+	private double brainLevel = 1;
 
 	//Constructor
 	public Evopix()
@@ -86,7 +88,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
 
 			//Import music
-			
 			File[] music = new File[2];
 			File redGiant = new File("res/music/stellardroneRedGiant.wav");
 			File ultraDeepField = new File("res/music/stellardroneUltraDeepField.wav");
@@ -98,7 +99,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			Clip clip = (Clip) AudioSystem.getLine(info);
 			clip.open(stream);
 			clip.start();
-			
 		} 
 		catch (Exception e)
 		{
@@ -201,7 +201,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		//Start update clocks
 		timers[0] = new Timer(1000, this);
 		timers[0].setActionCommand("t");
-		timers[1] = new Timer(100, this);
+		timers[1] = new Timer(300, this);
 		timers[1].setActionCommand("t2");
 		timers[2] = new Timer(100, this);
 		timers[2].setActionCommand("t3");
@@ -260,18 +260,18 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		return fCells * 10 + not;
 	}
 
-	public int getGlucoseInc()
+	public double getGlucoseInc()
 	{
 		int psCells = 0;
 		for(Cell c : cells)
 			if(c.type == Type.PHOTOSYNTHESIS)
 				psCells++;
-		return psCells;
+		return psCells*brainLevel;
 	}
 
-	public int getGlucoseProfit()
+	public double getGlucoseProfit()
 	{
-		int inc = getGlucoseInc();
+		double inc = getGlucoseInc();
 		int cost = 0;
 		if(forwards)
 			for(Cell c : cells)
@@ -349,7 +349,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				
 				//Bubbles
-				//if(!forwards)
+				if(!forwards)
 					for(int i = 0; i < bubNum; i++)
 						if(bubs[i].pop)
 							g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
@@ -394,7 +394,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				flagella = 0;
 				leftFlagella = 0;
 				rightFlagella = 0;
+				brainLevel = 1;
 
+				//Flagella check
 				for(Cell c : cells)
 				{
 					if(c.iType == combos[0][0])
@@ -429,6 +431,33 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 													d.setUsedInCombo(false);
 													e.setUsedInCombo(false);
 												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				//Brain check
+				for(Cell c: cells)
+				{
+					if(c.type == Type.BRAIN)
+					{
+						for(Cell d : cells)
+						{
+							if(d.type == Type.BRAIN&&d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)
+							{
+								for(Cell e : cells)
+								{
+									if(e.type == Type.BRAIN&&e.loc.x==c.loc.x+1&&e.loc.y==c.loc.y)
+									{
+										for(Cell f : cells)
+										{
+											if(f.type == Type.BRAIN&&f.loc.x==c.loc.x+1&&f.loc.y==c.loc.y+1)
+											{
+												brainLevel=1.5;
 											}
 										}
 									}
@@ -538,6 +567,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		{
 			int x = (me.getX() - pane.getWidth() / 2)<0? (me.getX() - pane.getWidth() / 2) / 24 - 1: (me.getX() - pane.getWidth() / 2) / 24;
 			int y = (me.getY() - pane.getHeight() / 2)<0? (me.getY() - pane.getHeight() / 2) / 24 - 1: (me.getY() - pane.getHeight() / 2) / 24;
+			int cost = 10;
+			if(highlighted==Type.BRAIN)
+				cost = 100;
 			if(x>12&&y>5)
 			{
 				switch(y)
@@ -548,7 +580,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				case 9: highlighted=(x==13)?Type.BLUE:Type.RED;break;
 				}
 			}
-			else if(glucose >= 10 && !(x>=6&&y<=-9))
+			else if(glucose >= cost && !(x>=6&&y<=-9))
 			{
 				Boolean valid = false;
 				for(Cell c : cells)
@@ -572,7 +604,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					if(!checkConnected(c))
 						c.controlled = false;
 					cells.add(c);
-					glucose -= 10;
+					glucose -= cost;
 				}
 				else
 				{
@@ -645,8 +677,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
-				for(int i = 0; i<bubNum; i++)
-					bubs[i].y += 48*flagella/cells.size();
 				offset+=48*flagella/cells.size();
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
