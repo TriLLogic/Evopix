@@ -54,7 +54,7 @@ Research
 
 Map
 
-Implement costs per turn
+Sideways flagella
 
 Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis, electricity (like eels))
 
