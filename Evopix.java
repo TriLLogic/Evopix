@@ -349,7 +349,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				
 				//Bubbles
-				if(!forwards)
+				//if(!forwards)
 					for(int i = 0; i < bubNum; i++)
 						if(bubs[i].pop)
 							g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
@@ -677,6 +677,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
+				for (int i = 0; i < bubNum; i++)
+					bubs[i].y += 48*flagella/cells.size();
 				offset+=48*flagella/cells.size();
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
