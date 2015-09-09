@@ -56,6 +56,8 @@ Map
 
 Sideways flagella
 
+Fix bubbles
+
 Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis, electricity (like eels))
 
 Deleting pixels
