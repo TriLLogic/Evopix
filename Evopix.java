@@ -293,7 +293,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		{
 			if(isAdjacent(c, d))
 			{
-				if(d.type == Type.BRAIN)
+				if(c.type == Type.BRAIN || d.type == Type.BRAIN)
 					return true;
 				if(d.type == Type.FLESH)
 					if(checkConnected(d))
