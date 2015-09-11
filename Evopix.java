@@ -201,7 +201,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		//Start update clocks
 		timers[0] = new Timer(1000, this);
 		timers[0].setActionCommand("t");
-		timers[1] = new Timer(300, this);
+		timers[1] = new Timer(100, this);
 		timers[1].setActionCommand("t2");
 		timers[2] = new Timer(100, this);
 		timers[2].setActionCommand("t3");
