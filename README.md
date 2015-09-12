@@ -62,6 +62,8 @@ Deleting pixels
 
 Fix replacing pixels in combos transparency bug
 
+Fix infinte recursion in checkConnected();
+
 New ideas: (note this is a bunch of stuff I found off the internet, I don't expect much to actually make it into the game, just for extra ideas)
 
 pseudopodia
