@@ -1,6 +1,6 @@
 ***
 # Evopix
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~ Alpha Goals (additions) ~~
 
 Add health
@@ -77,7 +77,7 @@ Cilia >>> Flagellum (or cilia could just be the non-combo version)
 
 Photoreceptor >>> Eye
 
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~ Beta Goals (fixes) ~~
 
 replacing pixels in combos transparency bug
