@@ -1,15 +1,15 @@
 ***
 # Evopix
 
+~~ Alpha Goals (additions) ~~
+
 Add health
 
 Cookie warning
 
 Brains penalty when hit
 
-aero dynamics
-
-upgrades (see bottom)
+aero(hydro) dynamics
 
 Implement hover-over combo fading...
 
@@ -29,7 +29,7 @@ Combos
 
 -eyes
 
--pre-eyes?
+-early organs
 
 -digestive squirter
 
@@ -47,9 +47,6 @@ Implement powered
 
 Implement autofire
 
-
-*****************************************************************************************************************
-
 Research
 
 Map
@@ -60,18 +57,6 @@ Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis,
 
 Deleting pixels
 
-Fix replacing pixels in combos transparency bug
-
-Fix infinte recursion in checkConnected();
-
-New ideas: (note this is a bunch of stuff I found off the internet, I don't expect much to actually make it into the game, just for extra ideas)
-
-pseudopodia
-http://study.com/academy/lesson/pseudopods-definition-function.html
-
-Food vacuoles (used to get energy from food)
-http://study.com/academy/lesson/food-vacuole-definition-function.html
-
 Cilia
 
 Gullet
@@ -80,15 +65,9 @@ Photoreceptor
 
 Cytoplasm
 
-*****************
-UPGRADES
 
 Upgrades are when you use energy to increase the productivity and efficiency of your cells and combos
 Requires brain power (intelligence/wisdom?)* to think of these.
-
-*Placeholder name.
-
-Here are some examples:
 
 Cytoplasm >>> Flesh
 
@@ -97,3 +76,10 @@ Cell Membrane >>> Cell Wall >>> Shell
 Cilia >>> Flagellum (or cilia could just be the non-combo version)
 
 Photoreceptor >>> Eye
+
+
+~~ Beta Goals (fixes) ~~
+
+replacing pixels in combos transparency bug
+
+infinte recursion in checkConnected();
