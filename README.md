@@ -80,3 +80,5 @@ Photoreceptor >>> Eye
 replacing pixels / building beneath combos transparency bug
 
 infinte recursion in checkConnected();
+
+diagonal checkConnected();
