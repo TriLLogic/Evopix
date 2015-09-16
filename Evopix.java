@@ -413,23 +413,34 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 										{
 											if(f.loc.x==c.loc.x&&f.loc.y==c.loc.y-1)
 											{
-												if(!f.usedInCombo&&checkControlled(c))
+												Boolean wrong = false;
+												for(Cell h : cells)
 												{
-													g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
-													c.setUsedInCombo(true);
-													d.setUsedInCombo(true);
-													e.setUsedInCombo(true);
-													flagella++;
-													if(c.loc.x > getCentreOfMass().x)
-														rightFlagella++;
-													if(c.loc.x < getCentreOfMass().x)
-														leftFlagella++;
+													if(h.loc.x==e.loc.x&&h.loc.y==e.loc.y+1)
+													{
+														wrong = true;
+													}
 												}
-												else
+												if(!wrong)
 												{
-													c.setUsedInCombo(false);
-													d.setUsedInCombo(false);
-													e.setUsedInCombo(false);
+													if(!f.usedInCombo&&checkControlled(c))
+													{
+														g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+														c.setUsedInCombo(true);
+														d.setUsedInCombo(true);
+														e.setUsedInCombo(true);
+														flagella++;
+														if(c.loc.x > getCentreOfMass().x)
+															rightFlagella++;
+														if(c.loc.x < getCentreOfMass().x)
+															leftFlagella++;
+													}
+													else
+													{
+														c.setUsedInCombo(false);
+														d.setUsedInCombo(false);
+														e.setUsedInCombo(false);
+													}
 												}
 											}
 										}
