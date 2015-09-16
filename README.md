@@ -33,8 +33,6 @@ Combos
 
 -digestive squirter
 
-Flagella need air beneath them
-
 ATP
 
 Tool tips
@@ -65,7 +63,6 @@ Photoreceptor
 
 Cytoplasm
 
-
 Upgrades are when you use energy to increase the productivity and efficiency of your cells and combos
 Requires brain power (intelligence/wisdom?)* to think of these.
 
@@ -80,6 +77,6 @@ Photoreceptor >>> Eye
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~ Beta Goals (fixes) ~~
 
-replacing pixels in combos transparency bug
+replacing pixels / building beneath combos transparency bug
 
 infinte recursion in checkConnected();
