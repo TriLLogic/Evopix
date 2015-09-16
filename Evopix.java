@@ -28,7 +28,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage[] palette = new BufferedImage[12];
 	private BufferedImage[] flagellum = new BufferedImage[3];
 	private BufferedImage[] menuImages = new BufferedImage[2];
-	private BufferedImage highlight, glucoseImage, bubbleImage, popImage/*, background*/;
+	private BufferedImage highlight, glucoseImage, bubbleImage, popImage, spike/*, background*/;
 	private Bubble[] bubs = new Bubble[bubNum];
 	private int flagella = 0;
 	private int leftFlagella = 0;
@@ -70,6 +70,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			flagellum[1] = ImageIO.read(new File("res/images/flagellum2.jpg"));
 			bubbleImage = ImageIO.read(new File("res/images/bubbleBlue.jpg"));
 			popImage = ImageIO.read(new File("res/images/popBlue.jpg"));
+			spike = ImageIO.read(new File("res/images/spike.jpg"));
 			//background = ImageIO.read(new File("res/images/background2.jpg"));
 			bg1[0] = ImageIO.read(new File("res/images/bg11.png"));
 			bg1[1] = ImageIO.read(new File("res/images/bg12.png"));
@@ -444,6 +445,31 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 												}
 											}
 										}
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				//Spike check
+				for(Cell c: cells)
+				{
+					if(c.type == Type.BLUE)
+					{
+						for(Cell d : cells)
+						{
+							if(d.type == Type.BLUE&&d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)
+							{
+								for(Cell e : cells)
+								{
+									if(e.type == Type.BLUE&&e.loc.x==d.loc.x&&e.loc.y==d.loc.y)
+									{
+										g.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+										System.out.println((pane.getWidth() / 2)+(24*c.loc.x));
+										c.setUsedInCombo(true);
+										d.setUsedInCombo(true);
+										e.setUsedInCombo(true);
 									}
 								}
 							}
