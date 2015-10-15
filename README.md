@@ -59,6 +59,8 @@ Different shapes of brain add creature wide bonuses (e.g. faster photosynthesis,
 
 Deleting pixels
 
+Mitosis
+
 Cilia
 
 Gullet
