@@ -90,3 +90,5 @@ replacing pixels / building beneath combos transparency bug
 infinte recursion in checkConnected();
 
 diagonal checkConnected();
+
+selector ontop of cells (when cells next to options)
