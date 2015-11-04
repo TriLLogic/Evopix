@@ -87,7 +87,7 @@ Photoreceptor >>> Eye
 
 replacing pixels / building beneath combos transparency bug
 
-infinte recursion in checkConnected();
+infinte recursion in checkConnected(); when connecting flesh bodies
 
 diagonal checkConnected();
 
