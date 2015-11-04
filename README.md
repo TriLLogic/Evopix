@@ -94,3 +94,5 @@ infinte recursion in checkConnected(); when connecting flesh bodies and combos a
 diagonal checkConnected();
 
 selector ontop of cells (when cells next to options)
+
+fix combo reader
