@@ -39,8 +39,6 @@ Combos
 
 -Directional spikes/combos
 
--CH34T C0D35
-
 ATP
 
 Tool tips
