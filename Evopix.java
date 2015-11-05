@@ -41,6 +41,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage[] bg2 = new BufferedImage[4];
 	private BufferedImage[] bg3 = new BufferedImage[4];
 	private double brainLevel = 1;
+	private boolean cheat = false;
 
 	//Constructor
 	public Evopix()
@@ -677,7 +678,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		{
 			//Update glucose
 			glucose += getGlucoseProfit();
-			if(glucose>getMaxGlucose())
+			if(glucose>getMaxGlucose()&&!cheat)
 				glucose=getMaxGlucose();
 			if(glucose<0)
 				glucose=0;
@@ -716,9 +717,12 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			//Animate movement
 			if(forwards)
 			{
+				int movement = 48*flagella/cells.size();
+				if(cheat)
+					movement=25;
 				for (int i = 0; i < bubNum; i++)
-					bubs[i].y += 48*flagella/cells.size();
-				offset+=48*flagella/cells.size();
+					bubs[i].y += movement;
+				offset+=movement;
 				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
 			if(offset > 5500)
@@ -731,10 +735,18 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 	public void keyPressed(KeyEvent ke)
 	{
-		if(flagella > 0 && glucose > 0) //&& flagella * 7 >= cells.size())
-			forwards = true;
-		else
-			forwards = false;
+		if(ke.getKeyCode() == 38)
+		{
+			if(flagella > 0 && glucose > 0 || cheat) //&& flagella * 7 >= cells.size())
+				forwards = true;
+			else
+				forwards = false;
+		}
+		else if(ke.getKeyCode() == 109)
+		{
+			cheat = true;
+			glucose = 10000;
+		}
 	}
 
 	public void keyReleased(KeyEvent ke)
