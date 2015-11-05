@@ -279,7 +279,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				cost += c.energyUsed;
 		return inc - cost;
 	}
-	
+
 	public boolean isAdjacent(Cell c, Cell d)
 	{
 		if((d.loc.x==c.loc.x+1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x-1&&d.loc.y==c.loc.y)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)||(d.loc.x==c.loc.x&&d.loc.y==c.loc.y-1))
@@ -287,7 +287,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		else
 			return false;
 	}
-	
+
 	public boolean checkConnected(Cell c)
 	{
 		for(Cell d : cells)
@@ -337,7 +337,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				//Background
 				for (int i = 0; i < bgs.length; i++)
 				{
-					
+
 					trans.setTransform(new AffineTransform());
 					trans.setToTranslation(bgs[i].x, bgs[i].y + offset);
 					trans.rotate(Math.toRadians(bgs[i].rot));
@@ -348,14 +348,17 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					case 3: g2d.drawImage(bg3[bgs[i].num], trans, this); g.drawImage(bg3[bgs[i].num], bgs[i].x, bgs[i].y + offset, bgs[i].xsiz, bgs[i].ysiz, null); break;
 					}
 				}
-				
+
 				//Bubbles
 				//if(!forwards)
-					for(int i = 0; i < bubNum; i++)
-						if(bubs[i].pop)
-							g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
-						else
-							g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
+				for(int i = 0; i < bubNum; i++)
+					if(bubs[i].pop)
+						g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
+					else
+						g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
+
+				//g.setColor(Color.black);
+				//g.drawString("Phagocyte", 350, 10);
 
 				//HUD
 				g.setColor(Color.GRAY);
@@ -451,7 +454,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						}
 					}
 				}
-				
+
 				//Spike check
 				for(Cell c: cells)
 				{
@@ -466,7 +469,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 									if(e.type == Type.BLUE&&e.loc.x==d.loc.x&&e.loc.y==d.loc.y)
 									{
 										g.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
-										System.out.println((pane.getWidth() / 2)+(24*c.loc.x));
 										c.setUsedInCombo(true);
 										d.setUsedInCombo(true);
 										e.setUsedInCombo(true);
@@ -476,7 +478,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						}
 					}
 				}
-				
+
 				//Brain check
 				for(Cell c: cells)
 				{
