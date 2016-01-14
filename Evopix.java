@@ -655,6 +655,33 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 			}
 			pane.repaint();
+			
+						
+			//Save new image of organism
+			int width = 720;
+			int height = 480;
+			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D g2 = bi.createGraphics();
+			for(Cell c : cells)
+			{
+				if(!c.usedInCombo)
+				{
+					g2.drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+				}
+				else
+				{
+					g2.drawImage(palette[c.iType+4], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+				}
+			}
+		        File f = new File("image.png");
+		        try
+		        {
+		        	ImageIO.write(bi, "png", f);
+		        }
+		        catch (IOException ex)
+		        {
+		            ex.printStackTrace();
+		        }
 		}
 		else
 		{
