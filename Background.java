@@ -24,7 +24,7 @@ public class Background
 	int[] hig3 = new int[]{196, 232, 86, 210};
 
 
-	public void act(int offset)
+	public void act()
 	{
 		x += xspd*level;
 		y += yspd*level;
