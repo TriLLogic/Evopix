@@ -537,10 +537,14 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				trans.setTransform(new AffineTransform());
 				trans.setToTranslation(0, 0);
 				rotation = rotation * -1;
-				trans.rotate(Math.toRadians(rotation), organism.getWidth() / 2, organism.getHeight() / 2);
+				Coordinate centre = getCentreOfMass();
+				trans.rotate(Math.toRadians(rotation), (organism.getWidth() / 2)+(24*centre.x), (organism.getHeight() / 2)+(24*centre.y));
 				rotation = rotation * -1;
 
 				g2d.drawImage(organism, trans, this);
+				
+				g.setColor(Color.RED);
+				g.fillOval((organism.getWidth() / 2)+(24*centre.x)-5, (organism.getHeight() / 2)+(24*centre.y)-5, 10, 10);
 
 				saveGame();
 			}
