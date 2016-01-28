@@ -94,3 +94,5 @@ diagonal checkConnected();
 selector ontop of cells (when cells next to options)
 
 fix combo reader
+
+fix clicking
