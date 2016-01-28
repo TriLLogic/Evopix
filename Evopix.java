@@ -127,13 +127,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			cells.add(new Cell(true, true, new Coordinate(1, 0), Type.FLESH, 0, false));
 
 			combos[0][0] = 4;
-			
-			combos[0][1] = 6;
-			combos[0][2] = 6;
-			while(combos[0][1] == 6 && combos[0][2] == 6){
-				combos[0][1] = rng.nextInt(4) + 4;
-				combos[0][2] = rng.nextInt(4) + 4;
-			}
+			combos[0][1] = rng.nextInt(4) + 4;
+			combos[0][2] = rng.nextInt(4) + 4;
 		}
 		else
 		{
