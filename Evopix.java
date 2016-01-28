@@ -7,7 +7,6 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
-//import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
@@ -73,7 +72,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bubbleImage = ImageIO.read(new File("res/images/bubbleBlue.jpg"));
 			popImage = ImageIO.read(new File("res/images/popBlue.jpg"));
 			spike = ImageIO.read(new File("res/images/spike.jpg"));
-			//background = ImageIO.read(new File("res/images/background2.jpg"));
 			bg1[0] = ImageIO.read(new File("res/images/bg11.png"));
 			bg1[1] = ImageIO.read(new File("res/images/bg12.png"));
 			bg1[2] = ImageIO.read(new File("res/images/bg13.png"));
@@ -306,10 +304,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		return false;
 	}
 
-	// public void generateCombo(Random randGen) {
-	// 	int
-	// }
-
 	//Updates info pane
 	public class MainPane extends JPanel 
 	{
@@ -321,21 +315,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			{
 				//BG
 				Graphics2D g2d = (Graphics2D)g;
-				/*AffineTransform trans = new AffineTransform();
-
-				for (int i = -50; i < 49; i++)
-				{
-					for (int j = -50; j < 49; j++)
-					{
-						trans.setTransform(new AffineTransform());
-						trans.translate(0, offset);
-						trans.rotate(Math.toRadians(rotateOffset));
-						trans.translate(750 + i * 3000, 750 + j * 3000);
-						g2d.drawImage(background, trans, this);
-						g.drawImage(background, 750 + i * 3000, 750 + j * 3000 + offset, 3000, 3000, null);
-					}
-				}*/
 				AffineTransform trans = new AffineTransform();
+				
 				//Background
 				for (int i = 0; i < bgs.length; i++)
 				{
@@ -352,22 +333,18 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 
 				//Bubbles
-				//if(!forwards)
 				for(int i = 0; i < bubNum; i++)
 					if(bubs[i].pop)
 						g.drawImage(popImage, bubs[i].x-4, bubs[i].y-4, 24, 24, null);
 					else
 						g.drawImage(bubbleImage, bubs[i].x, bubs[i].y, 16, 16, null);
 
-				//g.setColor(Color.black);
-				//g.drawString("Phagocyte", 350, 10);
-
 				//HUD
 				g.setColor(Color.GRAY);
 				g.fillRect(pane.getWidth() - 210, 0, 200, 40);
 				g.setColor(Color.BLACK);
 				g.drawRect(pane.getWidth() - 210, 0, 200, 40);
-				// GlucoseDisplay
+				//GlucoseDisplay
 				//Draw an image of glucose
 				g.drawImage(glucoseImage, pane.getWidth() - 208, 2, 18, 14, null);
 				//Display amount of glucose
@@ -433,7 +410,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 												{
 													if(!f.usedInCombo&&checkControlled(c))
 													{
-														//g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 														c.setUsedInCombo(true);
 														d.setUsedInCombo(true);
 														e.setUsedInCombo(true);
@@ -468,7 +444,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 								{
 									if(e.type == Type.BLUE&&e.loc.x==d.loc.x&&e.loc.y==d.loc.y)
 									{
-										//g.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 										c.setUsedInCombo(true);
 										d.setUsedInCombo(true);
 										e.setUsedInCombo(true);
@@ -505,22 +480,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						}
 					}
 				}
-				/*
-				//Organism
-				for(Cell c : cells)
-				{
-					if(!c.usedInCombo)
-					{
-						g.drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
-					}
-					else
-					{
-						g.drawImage(palette[c.iType+4], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
-					}
-				}
-				 */
 
-				try {
+				try
+				{
 					organism = ImageIO.read(new File("saves/image.png"));
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -546,22 +508,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				g.drawImage(menuImages[0], 288, 167, null);
 				g.drawImage(menuImages[1], 288, 239, null);
 			}
-		}
-
-		private boolean checkControlled(Cell c)
-		{
-			for(Cell d : cells)
-			{
-				if(isAdjacent(c, d))
-				{
-					if(d.type == Type.BRAIN)
-						return true;
-					if(d.type == Type.FLESH)
-						if(checkConnected(d))
-							return true;
-				}
-			}
-			return false;
 		}
 	}
 
@@ -893,7 +839,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	{
 		if(ke.getKeyCode() == 38 || ke.getKeyCode() == 87)
 		{
-			if(flagella > 0 && glucose > 0 || cheat) //&& flagella * 7 >= cells.size())
+			if(flagella > 0 && glucose > 0 || cheat)
 				forwards = true;
 			else
 				forwards = false;
@@ -911,8 +857,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			showCOM = true;
 		else if(ke.getKeyChar() == 93)
 			showCOM = false;
-		
-		//System.out.println(ke.getKeyCode());
 	}
 
 	public void keyReleased(KeyEvent ke)
