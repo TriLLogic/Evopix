@@ -31,12 +31,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage highlight, glucoseImage, bubbleImage, popImage, spike/*, background*/;
 	private Bubble[] bubs = new Bubble[bubNum];
 	private int flagella = 0;
-	private int leftFlagella = 0;
-	private int rightFlagella = 0;
 	private boolean forwards = false;
 	private int offsetV = 0;
 	private int offsetH = 0;
-	private int rotateOffset = 0;
 	private Background[] bgs = new Background[375];
 	private BufferedImage[] bg1 = new BufferedImage[7];
 	private BufferedImage[] bg2 = new BufferedImage[4];
@@ -400,8 +397,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 				//Check for combos
 				flagella = 0;
-				leftFlagella = 0;
-				rightFlagella = 0;
 				brainLevel = 1;
 
 				//rotation check
@@ -437,15 +432,11 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 												{
 													if(!f.usedInCombo&&checkControlled(c))
 													{
-														g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+														//g.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 														c.setUsedInCombo(true);
 														d.setUsedInCombo(true);
 														e.setUsedInCombo(true);
 														flagella++;
-														if(c.loc.x > getCentreOfMass().x)
-															rightFlagella++;
-														if(c.loc.x < getCentreOfMass().x)
-															leftFlagella++;
 													}
 													else
 													{
@@ -476,7 +467,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 								{
 									if(e.type == Type.BLUE&&e.loc.x==d.loc.x&&e.loc.y==d.loc.y)
 									{
-										g.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+										//g.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
 										c.setUsedInCombo(true);
 										d.setUsedInCombo(true);
 										e.setUsedInCombo(true);
@@ -542,7 +533,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				rotation = rotation * -1;
 
 				g2d.drawImage(organism, trans, this);
-				
+
 				g.setColor(Color.RED);
 				g.fillOval((organism.getWidth() / 2)+(24*centre.x)-5, (organism.getHeight() / 2)+(24*centre.y)-5, 10, 10);
 
@@ -570,6 +561,22 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			}
 			return false;
 		}
+	}
+
+	private boolean checkControlled(Cell c)
+	{
+		for(Cell d : cells)
+		{
+			if(isAdjacent(c, d))
+			{
+				if(d.type == Type.BRAIN)
+					return true;
+				if(d.type == Type.FLESH)
+					if(checkConnected(d))
+						return true;
+			}
+		}
+		return false;
 	}
 
 	public void saveGame() // Returns code that can be used to load again
@@ -758,7 +765,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				offsetV += movementV;
 				offsetH += movementH;
-				rotateOffset += (rightFlagella - leftFlagella)/2;
 			}
 
 			//pos to neg
@@ -790,6 +796,80 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				else
 				{
 					g2.drawImage(palette[c.iType+4], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+				}
+			}
+			//Flagella check
+			for(Cell c : cells)
+			{
+				if(c.iType == combos[0][0])
+				{
+					for(Cell d : cells)
+					{
+						if(d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1&&d.iType==combos[0][1])
+						{
+							for(Cell e : cells)
+							{
+								if(e.loc.x==d.loc.x&&e.loc.y==d.loc.y+1&&e.iType==combos[0][2])
+								{
+									for(Cell f : cells)
+									{
+										if(f.loc.x==c.loc.x&&f.loc.y==c.loc.y-1)
+										{
+											Boolean wrong = false;
+											for(Cell h : cells)
+											{
+												if(h.loc.x==e.loc.x&&h.loc.y==e.loc.y+1)
+												{
+													wrong = true;
+												}
+											}
+											if(!wrong)
+											{
+												if(!f.usedInCombo&&checkControlled(c))
+												{
+													g2.drawImage(flagellum[0], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+													c.setUsedInCombo(true);
+													d.setUsedInCombo(true);
+													e.setUsedInCombo(true);
+													flagella++;
+												}
+												else
+												{
+													c.setUsedInCombo(false);
+													d.setUsedInCombo(false);
+													e.setUsedInCombo(false);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			//Spike check
+			for(Cell c: cells)
+			{
+				if(c.type == Type.BLUE)
+				{
+					for(Cell d : cells)
+					{
+						if(d.type == Type.BLUE&&d.loc.x==c.loc.x&&d.loc.y==c.loc.y+1)
+						{
+							for(Cell e : cells)
+							{
+								if(e.type == Type.BLUE&&e.loc.x==d.loc.x&&e.loc.y==d.loc.y)
+								{
+									g2.drawImage(spike, (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 72, null);
+									c.setUsedInCombo(true);
+									d.setUsedInCombo(true);
+									e.setUsedInCombo(true);
+								}
+							}
+						}
+					}
 				}
 			}
 			File f = new File("saves/image.png");
