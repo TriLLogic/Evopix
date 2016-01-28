@@ -42,6 +42,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private boolean cheat = false;
 	private int rotation = 0;
 	private BufferedImage organism;
+	private boolean showCOM = false; 
 
 	//Constructor
 	public Evopix()
@@ -535,7 +536,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				g2d.drawImage(organism, trans, this);
 
 				g.setColor(Color.RED);
-				g.fillOval((organism.getWidth() / 2)+(24*centre.x)-5, (organism.getHeight() / 2)+(24*centre.y)-5, 10, 10);
+				if(showCOM)
+					g.fillOval((organism.getWidth() / 2)+(24*centre.x)-5, (organism.getHeight() / 2)+(24*centre.y)-5, 10, 10);
 
 				saveGame();
 			}
@@ -889,7 +891,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 	public void keyPressed(KeyEvent ke)
 	{
-		if(ke.getKeyCode() == 38)
+		if(ke.getKeyCode() == 38 || ke.getKeyCode() == 87)
 		{
 			if(flagella > 0 && glucose > 0 || cheat) //&& flagella * 7 >= cells.size())
 				forwards = true;
@@ -900,10 +902,17 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		{
 			cheat = true;
 			glucose = 10000;
-		}else if(ke.getKeyCode() == 37&& glucose > 0)
+		}
+		else if((ke.getKeyCode() == 37 || ke.getKeyCode() == 65)&& glucose > 0)
 			rotation ++;
-		else if(ke.getKeyCode() == 39&& glucose > 0)
+		else if((ke.getKeyCode() == 39 || ke.getKeyCode() == 68)&& glucose > 0)
 			rotation --;
+		else if(ke.getKeyChar() == 91)
+			showCOM = true;
+		else if(ke.getKeyChar() == 93)
+			showCOM = false;
+		
+		//System.out.println(ke.getKeyCode());
 	}
 
 	public void keyReleased(KeyEvent ke)
