@@ -15,6 +15,8 @@ Brains penalty when hit
 
 aero(hydro) dynamics
 
+Place blocks while turning
+
 Implement hover-over combo fading...
 
 Credits
@@ -24,8 +26,6 @@ Implement organisms
 Loading screen
 
 Multiple saves
-
-Redo turning
 
 Combos
 
