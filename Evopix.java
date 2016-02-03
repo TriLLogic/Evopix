@@ -372,6 +372,12 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				case BLUE: g.drawImage(highlight, pane.getWidth() - 50, pane.getHeight() - 26, 28, 28, null); break;
 				case RED: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 26, 28, 28, null); break;
 				}
+				
+				g.setColor(Color.PINK);
+				g.fillRect(100, 100, 50, 225);
+				g.fillOval(75, 75, 50, 50);
+				g.fillOval(125, 75, 50, 50);
+				g.fillOval(100, 300, 50, 50);
 
 				//Check for combos
 				flagella = 0;
