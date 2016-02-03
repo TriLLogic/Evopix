@@ -376,7 +376,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				}
 				
 				if(growing)size++;else size--;
-				if(size>150)growing=false;
+				if(size>75)growing=false;
 				if(size<50)growing=true;
 				g.setColor(Color.PINK);
  				g.fillRect(100,100,size,(int)(size*4.5));
