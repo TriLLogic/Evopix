@@ -42,6 +42,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private int rotation = 0;
 	private BufferedImage organism;
 	private boolean showCOM = false; 
+	private int size=50;
+	private Boolean growing=true;
 
 	//Constructor
 	public Evopix()
@@ -373,11 +375,14 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				case RED: g.drawImage(highlight, pane.getWidth() - 26, pane.getHeight() - 26, 28, 28, null); break;
 				}
 				
+				if(growing)size++;else size--;
+				if(size>150)growing=false;
+				if(size<50)growing=true;
 				g.setColor(Color.PINK);
-				g.fillRect(100, 100, 50, 225);
-				g.fillOval(75, 75, 50, 50);
-				g.fillOval(125, 75, 50, 50);
-				g.fillOval(100, 300, 50, 50);
+ 				g.fillRect(100,100,size,(int)(size*4.5));
+ 				g.fillOval(100-(size/2),100-(size/2),size,size);
+ 				g.fillOval(100+(size/2),100-(size/2),size,size);
+ 				g.fillOval(100,100+(size*4),size,size);
 
 				//Check for combos
 				flagella = 0;
