@@ -7,7 +7,9 @@ public class Organism
 	private Coordinate location;
 	
 	public Organism(String template, Coordinate loc) 
-	{
+	{		
+		Evopix.otherCells ++;
+
 		location = loc;
 		
 		if(template.equals("bacterium"))
