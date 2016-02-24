@@ -14,7 +14,7 @@ import java.util.*;
 public class Evopix extends JPanel implements MouseListener, KeyListener, ActionListener
 {
 	//Initialisers
-	private int maxOthers = 100;
+	private int maxOthers = 20;
 	private JPanel pane;
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
 	private Type highlighted = Type.FLESH;
@@ -44,7 +44,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private BufferedImage organism;
 	private BufferedImage[] othersI = new BufferedImage[maxOthers];
 	private boolean showCOM = false;
-	public static int otherCells = 0;
+	public static int otherOrgs = 0;
 	private Organism[] others = new Organism[maxOthers];
 
 
@@ -55,6 +55,15 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 		try
 		{
+			//GUI
+			pane = new MainPane();
+			pane.setBackground(new Color(188, 205, 255));
+			pane.setPreferredSize(new Dimension(720, 480));
+			pane.addMouseListener(this);
+			pane.addKeyListener(this);
+			pane.setFocusable(true);
+			add(pane, BorderLayout.CENTER);
+			
 			//Import images
 			menuImages[0] = ImageIO.read(new File("res/images/menuNew.png"));
 			menuImages[1] = ImageIO.read(new File("res/images/menuLoad.png"));
@@ -93,9 +102,58 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			bg3[2] = ImageIO.read(new File("res/images/bg33.png"));
 			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
 
+			//TODO only draw orgs inview
+			
 			//Other Organisms
-			others[0] = new Organism("bacterium", new Coordinate(5, 5));
-			others[1] = new Organism("phytoplankton", new Coordinate(-5, -5));
+			int width = 720;
+			int height = 480;
+
+			BufferedImage[] bis = new BufferedImage[maxOthers];
+			Graphics2D[] g2s = new Graphics2D[maxOthers];
+			File[] fs = new File[maxOthers];
+
+			otherOrgs = rng.nextInt(maxOthers);
+			System.out.println("  "+otherOrgs);
+			
+			FileWriter[] imgs = new FileWriter[otherOrgs];
+
+			for(int i = 0; i<otherOrgs; i++){
+				//others[0].moves = false;
+				imgs[i] = new FileWriter("saves/other"+i+".png");
+
+				System.out.println("1");
+
+				String type = "";
+				switch(rng.nextInt(10)){
+				case 1: type = "phytoplankton"; break;
+				case 2: type = "bacteria"; break;
+				default: break;
+				}
+				others[i] = new Organism(type, new Coordinate(rng.nextInt(12)-6, rng.nextInt(12)-6));
+
+				bis[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+				g2s[i] = bis[i].createGraphics();
+
+				for(Cell c : others[i].cells){
+					g2s[i].drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+				}
+				
+
+				fs[i] = new File("saves/other"+i+".png");
+				try{
+					ImageIO.write(bis[i], "png", fs[i]);				
+
+				}
+				catch (IOException ex){
+					ex.printStackTrace();
+				}
+				
+
+			}
+
+
+
+
 
 			//Import music
 			File[] music = new File[2];
@@ -115,14 +173,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			System.err.println();
 		}
 
-		//GUI
-		pane = new MainPane();
-		pane.setBackground(new Color(188, 205, 255));
-		pane.setPreferredSize(new Dimension(720, 480));
-		pane.addMouseListener(this);
-		pane.addKeyListener(this);
-		pane.setFocusable(true);
-		add(pane, BorderLayout.CENTER);
+		
 	}
 
 	public void start()
@@ -470,9 +521,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				try
 				{
 					organism = ImageIO.read(new File("saves/image.png"));
-					for(int i = 0; i < otherCells; i++){	
-						String imageName = "saves/other"+i+".png"; 
-						othersI[i] = ImageIO.read(new File(imageName));
+					for(int i = 0; i < otherOrgs; i++){
+						othersI[i] = ImageIO.read(new File("saves/other"+i+".png"));
 					}
 
 				} catch (IOException e) {
@@ -487,9 +537,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				rotation = rotation * -1;
 
 				g2d.drawImage(organism, trans, this);
-				for(int i = 0; i < otherCells; i++) 
+				for(int i = 0; i < otherOrgs; i++) {
 					g2d.drawImage(othersI[i], offsetH, offsetV, this);
-
+				}
 
 				g.setColor(Color.RED);
 				if(showCOM)
@@ -698,7 +748,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					movementV = (int) (48*flagella/cells.size()*Math.cos(Math.toRadians(rotation)));
 					movementH = (int) (48*flagella/cells.size()*Math.sin(Math.toRadians(rotation)));
 				}
-				
+
 				if(cheat)
 				{
 					movementV=(int)(25*Math.cos(Math.toRadians(rotation)));
@@ -728,9 +778,10 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			}
 			pane.repaint();
 
-			//Save new image of organism
 			int width = 720;
 			int height = 480;
+
+			//Save new image of organism
 			BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2 = bi.createGraphics();
 			for(Cell c : cells)
@@ -744,15 +795,18 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					g2.drawImage(palette[c.iType+4], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
 				}
 			}
+
 			//save image of different cells
 			BufferedImage[] bis = new BufferedImage[maxOthers];
 			Graphics2D[] g2s = new Graphics2D[maxOthers];
-			for(int i = 0; i < otherCells; i++){
-				bis[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-				g2s[i] = bis[i].createGraphics();
-				for(Cell c : others[i].cells)
-				{
-					g2s[i].drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+			for(int i = 0; i < otherOrgs; i++){
+				if(others[i].moves){
+					bis[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+					g2s[i] = bis[i].createGraphics();
+					for(Cell c : others[i].cells)
+					{
+						g2s[i].drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
+					}
 				}
 			}
 
@@ -833,18 +887,18 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			File f = new File("saves/image.png");
 			File[] fs = new File[maxOthers];
 
-			for(int i = 0; i<otherCells; i++){
-				String imageName = "saves/other"+i+".png";
-				fs[i] = new File(imageName);
+			for(int i = 0; i<otherOrgs; i++){
+				if(others[i].moves)
+					fs[i] = new File("saves/other"+i+".png");
 			}
-			try
-			{
+
+			try{
 				ImageIO.write(bi, "png", f);
-				for(int i = 0; i<otherCells; i++)
-					ImageIO.write(bis[i], "png", fs[i]);
+				for(int i = 0; i<otherOrgs; i++)
+					if(others[i].moves)
+						ImageIO.write(bis[i], "png", fs[i]);
 			}
-			catch (IOException ex)
-			{
+			catch (IOException ex){
 				ex.printStackTrace();
 			}
 
