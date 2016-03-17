@@ -46,6 +46,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private boolean showCOM = false;
 	public static int otherOrgs = 0;
 	private Organism[] others = new Organism[maxOthers];
+	private int turnSpd = 5;
 
 
 	//Constructor
@@ -907,14 +908,22 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		}
 	}
 
+	public void keyReleased(KeyEvent ke)
+	{
+		System.out.println(ke.getKeyCode());
+		if(ke.getKeyCode() == 38 || ke.getKeyCode() == 87)
+			forwards = false;
+		if(amRotat != 0 && ke.getKeyCode() == 37 || ke.getKeyCode() == 65 || ke.getKeyCode() == 39 || ke.getKeyCode() == 68 || glucose < 1){
+			amRotat = 0;
+		}
+	}
+	
 	public void keyPressed(KeyEvent ke)
 	{
 		if(ke.getKeyCode() == 38 || ke.getKeyCode() == 87)
 		{
 			if(flagella > 0 && glucose > 0 || cheat)
 				forwards = true;
-			else
-				forwards = false;
 		}
 		else if(ke.getKeyCode() == 109)
 		{
@@ -922,18 +931,14 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			glucose = 10000;
 		}
 		else if((ke.getKeyCode() == 37 || ke.getKeyCode() == 65)&& glucose > 0)
-			rotation ++;
+			amRotat = turnSpd;
 		else if((ke.getKeyCode() == 39 || ke.getKeyCode() == 68)&& glucose > 0)
-			rotation --;
+			amRotat = -turnSpd;
 		else if(ke.getKeyChar() == 91)
 			showCOM = true;
 		else if(ke.getKeyChar() == 93)
 			showCOM = false;
-	}
-
-	public void keyReleased(KeyEvent ke)
-	{
-		forwards = false;
+		
 	}
 
 	public void keyTyped(KeyEvent ke){}
