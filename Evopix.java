@@ -47,6 +47,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	public static int otherOrgs = 0;
 	private Organism[] others = new Organism[maxOthers];
 	private int turnSpd = 5;
+	private int amRotat = 0;
+
 
 
 	//Constructor
