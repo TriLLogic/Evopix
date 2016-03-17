@@ -14,7 +14,7 @@ import java.util.*;
 public class Evopix extends JPanel implements MouseListener, KeyListener, ActionListener
 {
 	//Initialisers
-	private int maxOthers = 20;
+	private int maxOthers = 0; //TODO Temp
 	private JPanel pane;
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
 	private Type highlighted = Type.FLESH;
@@ -50,7 +50,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private int amRotat = 0;
 
 
-
 	//Constructor
 	public Evopix()
 	{
@@ -66,47 +65,48 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			pane.addKeyListener(this);
 			pane.setFocusable(true);
 			add(pane, BorderLayout.CENTER);
-			
+
 			//Import images
-			menuImages[0] = ImageIO.read(new File("res/images/menuNew.jpg"));
-			menuImages[1] = ImageIO.read(new File("res/images/menuLoad.jpg"));
-			palette[0] = ImageIO.read(new File("res/images/photosynthesis.jpg"));
-			palette[1] = ImageIO.read(new File("res/images/brain.jpg"));
-			palette[2] = ImageIO.read(new File("res/images/shell.jpg"));
-			palette[3] = ImageIO.read(new File("res/images/flesh.jpg"));
-			palette[4] = ImageIO.read(new File("res/images/yellow2.jpg"));
-			palette[5] = ImageIO.read(new File("res/images/purple2.jpg"));
-			palette[6] = ImageIO.read(new File("res/images/blue2.jpg"));
-			palette[7] = ImageIO.read(new File("res/images/red2.jpg"));
-			palette[8] = ImageIO.read(new File("res/images/yellow3.jpg"));
-			palette[9] = ImageIO.read(new File("res/images/purple3.jpg"));
-			palette[10] = ImageIO.read(new File("res/images/blue3.jpg"));
-			palette[11] = ImageIO.read(new File("res/images/red3.jpg"));
-			glucoseImage = ImageIO.read(new File("res/images/glucose.jpg"));
-			highlight = ImageIO.read(new File("res/images/highlight1.jpg"));
-			flagellum[0] = ImageIO.read(new File("res/images/flagellum.jpg"));
-			flagellum[1] = ImageIO.read(new File("res/images/flagellum2.jpg"));
-			bubbleImage = ImageIO.read(new File("res/images/bubbleBlue.jpg"));
-			popImage = ImageIO.read(new File("res/images/popBlue.jpg"));
-			spike = ImageIO.read(new File("res/images/spike.jpg"));
-			bg1[0] = ImageIO.read(new File("res/images/bg11.png"));
-			bg1[1] = ImageIO.read(new File("res/images/bg12.png"));
-			bg1[2] = ImageIO.read(new File("res/images/bg13.png"));
-			bg1[3] = ImageIO.read(new File("res/images/bg14.png"));
-			bg1[4] = ImageIO.read(new File("res/images/bg15.png"));
-			bg1[5] = ImageIO.read(new File("res/images/bg16.png"));
-			bg1[6] = ImageIO.read(new File("res/images/bg17.png"));
-			bg2[0] = ImageIO.read(new File("res/images/bg21.png"));
-			bg2[1] = ImageIO.read(new File("res/images/bg22.png"));
-			bg2[2] = ImageIO.read(new File("res/images/bg23.png"));
-			bg2[3] = ImageIO.read(new File("res/images/bg24.png"));
-			bg3[0] = ImageIO.read(new File("res/images/bg31.png"));
-			bg3[1] = ImageIO.read(new File("res/images/bg32.png"));
-			bg3[2] = ImageIO.read(new File("res/images/bg33.png"));
-			bg3[3] = ImageIO.read(new File("res/images/bg34.png"));
+			menuImages[0] = loadImage("res/images/menuNew.jpg");
+			menuImages[1] = loadImage("res/images/menuLoad.jpg");
+			palette[0] = loadImage("res/images/photosynthesis.jpg");
+			palette[1] = loadImage("res/images/brain.jpg");
+			palette[2] = loadImage("res/images/shell.jpg");
+			palette[3] = loadImage("res/images/flesh.jpg");
+			palette[4] = loadImage("res/images/yellow2.jpg");
+			palette[5] = loadImage("res/images/purple2.jpg");
+			palette[6] = loadImage("res/images/blue2.jpg");
+			palette[7] = loadImage("res/images/red2.jpg");
+			palette[8] = loadImage("res/images/yellow3.jpg");
+			palette[9] = loadImage("res/images/purple3.jpg");
+			palette[10] = loadImage("res/images/blue3.jpg");
+			palette[11] = loadImage("res/images/red3.jpg");
+			glucoseImage = loadImage("res/images/glucose.jpg");
+			highlight = loadImage("res/images/highlight1.jpg");
+			flagellum[0] = loadImage("res/images/flagellum.jpg");
+			flagellum[1] = loadImage("res/images/flagellum2.jpg");
+			bubbleImage = loadImage("res/images/bubbleBlue.jpg");
+			popImage = loadImage("res/images/popBlue.jpg");
+			spike = loadImage("res/images/spike.jpg");
+			bg1[0] = loadImage("res/images/bg11.png");
+			bg1[1] = loadImage("res/images/bg12.png");
+			bg1[2] = loadImage("res/images/bg13.png");
+			bg1[3] = loadImage("res/images/bg14.png");
+			bg1[4] = loadImage("res/images/bg15.png");
+			bg1[5] = loadImage("res/images/bg16.png");
+			bg1[6] = loadImage("res/images/bg17.png");
+			bg2[0] = loadImage("res/images/bg21.png");
+			bg2[1] = loadImage("res/images/bg22.png");
+			bg2[2] = loadImage("res/images/bg23.png");
+			bg2[3] = loadImage("res/images/bg24.png");
+			bg3[0] = loadImage("res/images/bg31.png");
+			bg3[1] = loadImage("res/images/bg32.png");
+			bg3[2] = loadImage("res/images/bg33.png");
+			bg3[3] = loadImage("res/images/bg34.png");
+
 
 			//TODO only draw orgs inview
-			
+
 			//Other Organisms
 			int width = 720;
 			int height = 480;
@@ -116,23 +116,21 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			File[] fs = new File[maxOthers];
 
 			otherOrgs = rng.nextInt(maxOthers);
-			System.out.println("  "+otherOrgs);
-			
+			System.out.println(otherOrgs);
+
 			FileWriter[] imgs = new FileWriter[otherOrgs];
 
 			for(int i = 0; i<otherOrgs; i++){
 				//others[0].moves = false;
 				imgs[i] = new FileWriter("saves/other"+i+".png");
 
-				System.out.println("1");
-
 				String type = "";
-				switch(rng.nextInt(10)){
+				switch(rng.nextInt(3)){
 				case 1: type = "phytoplankton"; break;
-				case 2: type = "bacteria"; break;
+				case 2: type = "bacterium"; break;
 				default: break;
 				}
-				others[i] = new Organism(type, new Coordinate(rng.nextInt(12)-6, rng.nextInt(12)-6));
+				others[i] = new Organism(type, new Coordinate(rng.nextInt(30)-15, rng.nextInt(20)-10));
 
 				bis[i] = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 				g2s[i] = bis[i].createGraphics();
@@ -140,7 +138,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				for(Cell c : others[i].cells){
 					g2s[i].drawImage(palette[c.iType], (pane.getWidth() / 2)+(24*c.loc.x), (pane.getHeight() / 2)+(24*c.loc.y), 24, 24, null);
 				}
-				
+
 
 				fs[i] = new File("saves/other"+i+".png");
 				try{
@@ -150,12 +148,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				catch (IOException ex){
 					ex.printStackTrace();
 				}
-				
-
 			}
-
-
-
 
 
 			//Import music
@@ -176,7 +169,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			System.err.println();
 		}
 
-		
+
 	}
 
 	public void start()
@@ -521,15 +514,9 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 					}
 				}
 
-				try
-				{
-					organism = ImageIO.read(new File("saves/image.png"));
-					for(int i = 0; i < otherOrgs; i++){
-						othersI[i] = ImageIO.read(new File("saves/other"+i+".png"));
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
+				organism = loadImage("saves/image.png");
+				for(int i = 0; i < otherOrgs; i++){
+					othersI[i] = loadImage("saves/other"+i+".png");
 				}
 
 				trans.setTransform(new AffineTransform());
@@ -572,6 +559,14 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			}
 		}
 		return false;
+	}
+
+	public BufferedImage loadImage(String filename)
+	{
+		ImageIcon a = new ImageIcon(filename);
+		BufferedImage b = new BufferedImage(a.getIconWidth(), a.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+		a.paintIcon(null, b.createGraphics(), 0,0);
+		return b;
 	}
 
 	public void saveGame() // Returns code that can be used to load again
