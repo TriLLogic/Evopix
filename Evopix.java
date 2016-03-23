@@ -521,8 +521,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				for(int i = 0; i < otherOrgs; i++){
 					othersI[i] = loadImage("saves/other"+i+".png");
 				}
-
-				System.out.println(rotation);
 				
 				trans.setTransform(new AffineTransform());
 				trans.setToTranslation(0, 0);
