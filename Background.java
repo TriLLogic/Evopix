@@ -44,8 +44,8 @@ public class Background
 	public void newBack(int lev){
 		x = r.nextInt(10001)-5000;
 		y = r.nextInt(10001)-5000;
-		xspd = r.nextInt(11)-5;
-		yspd = r.nextInt(11)-5;
+		xspd = r.nextInt(7)-3;
+		yspd = r.nextInt(7)-3;
 		level = lev;
 
 		while(rotspd == 0)
