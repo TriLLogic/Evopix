@@ -514,13 +514,13 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 						}
 					}
 				}
+				
+				//TODO Fix image not updating
 
 				organism = loadImage("saves/image.png");
 				for(int i = 0; i < otherOrgs; i++){
 					othersI[i] = loadImage("saves/other"+i+".png");
 				}
-				
-				//TODO Fix rotation
 
 				System.out.println(rotation);
 				
