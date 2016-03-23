@@ -18,7 +18,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private JPanel pane;
 	private ArrayList<Cell> cells = new ArrayList<Cell>();
 	private Type highlighted = Type.FLESH;
-	private Timer[] timers = new Timer[4];
+	private Timer[] timers = new Timer[5];
 	private int glucose = 0;
 	private int[][] combos = new int[1][3];
 	private Random rng = new Random();
@@ -46,7 +46,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 	private boolean showCOM = false;
 	public static int otherOrgs = 0;
 	private Organism[] others = new Organism[maxOthers];
-	private int turnSpd = 5;
+	private int turnSpd = 2;
 	private int amRotat = 0;
 
 
@@ -66,7 +66,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			pane.setFocusable(true);
 			add(pane, BorderLayout.CENTER);
 
-			//Import images
+			//Import images TODO Make work in jar
 			menuImages[0] = loadImage("res/images/menuNew.jpg");
 			menuImages[1] = loadImage("res/images/menuLoad.jpg");
 			palette[0] = loadImage("res/images/photosynthesis.jpg");
@@ -116,7 +116,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			File[] fs = new File[maxOthers];
 
 			otherOrgs = rng.nextInt(maxOthers);
-			System.out.println(otherOrgs);
 
 			FileWriter[] imgs = new FileWriter[otherOrgs];
 
@@ -264,6 +263,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		timers[2].setActionCommand("t3");
 		timers[3] = new Timer(10, this);
 		timers[3].setActionCommand("t4");
+		timers[4] = new Timer(4, this);
+		timers[4].setActionCommand("t5");
 		for (int i = 0; i < timers.length; i++)
 			timers[i].start();
 	}
@@ -518,7 +519,11 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				for(int i = 0; i < otherOrgs; i++){
 					othersI[i] = loadImage("saves/other"+i+".png");
 				}
+				
+				//TODO Fix rotation
 
+				System.out.println(rotation);
+				
 				trans.setTransform(new AffineTransform());
 				trans.setToTranslation(0, 0);
 				rotation = rotation * -1;
@@ -743,8 +748,8 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 				int movementV = 0;
 				int movementH = 0;
 				if(glucose > 0){
-					movementV = (int) (48*flagella/cells.size()*Math.cos(Math.toRadians(rotation)));
-					movementH = (int) (48*flagella/cells.size()*Math.sin(Math.toRadians(rotation)));
+					movementV = (int) (72*flagella/cells.size()*Math.cos(Math.toRadians(rotation)));
+					movementH = (int) (72*flagella/cells.size()*Math.sin(Math.toRadians(rotation)));
 				}
 
 				if(cheat)
@@ -902,12 +907,15 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 
 			break;
 		}
+		case "t5":
+		{
+			rotation+=amRotat;
+		}
 		}
 	}
 
 	public void keyReleased(KeyEvent ke)
 	{
-		System.out.println(ke.getKeyCode());
 		if(ke.getKeyCode() == 38 || ke.getKeyCode() == 87)
 			forwards = false;
 		if(amRotat != 0 && ke.getKeyCode() == 37 || ke.getKeyCode() == 65 || ke.getKeyCode() == 39 || ke.getKeyCode() == 68 || glucose < 1){
@@ -935,7 +943,6 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 			showCOM = true;
 		else if(ke.getKeyChar() == 93)
 			showCOM = false;
-		
 	}
 
 	public void keyTyped(KeyEvent ke){}
