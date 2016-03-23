@@ -910,6 +910,7 @@ public class Evopix extends JPanel implements MouseListener, KeyListener, Action
 		case "t5":
 		{
 			rotation+=amRotat;
+			break;
 		}
 		}
 	}
